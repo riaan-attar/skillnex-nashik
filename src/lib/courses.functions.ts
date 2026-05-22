@@ -115,12 +115,14 @@ export const markLessonProgress = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const { userId } = context;
-    const payload: Record<string, unknown> = {
+    const payload = {
       user_id: userId,
       lesson_id: data.lessonId,
+      ...(data.completed !== undefined
+        ? { completed_at: data.completed ? new Date().toISOString() : null }
+        : {}),
+      ...(data.positionSeconds !== undefined ? { last_position_seconds: data.positionSeconds } : {}),
     };
-    if (data.completed !== undefined) payload.completed_at = data.completed ? new Date().toISOString() : null;
-    if (data.positionSeconds !== undefined) payload.last_position_seconds = data.positionSeconds;
     const { error } = await supabaseAdmin
       .from("lesson_progress")
       .upsert(payload, { onConflict: "user_id,lesson_id" });
