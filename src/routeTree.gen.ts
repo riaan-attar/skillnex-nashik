@@ -20,6 +20,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsSlugRouteImport } from './routes/programs.$slug'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -75,6 +76,11 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/signup': typeof SignupRoute
+  '/account': typeof AuthenticatedAccountRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/programs/$slug': typeof ProgramsSlugRoute
 }
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/signup': typeof SignupRoute
+  '/account': typeof AuthenticatedAccountRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/programs/$slug': typeof ProgramsSlugRoute
 }
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/signup': typeof SignupRoute
+  '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/programs/$slug': typeof ProgramsSlugRoute
 }
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/programs'
     | '/signup'
+    | '/account'
     | '/dashboard'
     | '/programs/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/programs'
     | '/signup'
+    | '/account'
     | '/dashboard'
     | '/programs/$slug'
   id:
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/programs'
     | '/signup'
+    | '/_authenticated/account'
     | '/_authenticated/dashboard'
     | '/programs/$slug'
   fileRoutesById: FileRoutesById
@@ -245,14 +257,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAccountRoute: AuthenticatedAccountRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
 }
 
