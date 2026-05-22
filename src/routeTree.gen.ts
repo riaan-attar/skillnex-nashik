@@ -13,6 +13,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsSlugRouteImport } from './routes/programs.$slug'
@@ -37,6 +38,11 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -56,6 +62,7 @@ const ProgramsSlugRoute = ProgramsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/programs': typeof ProgramsRouteWithChildren
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/programs': typeof ProgramsRouteWithChildren
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/programs': typeof ProgramsRouteWithChildren
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/contact'
     | '/faq'
     | '/login'
     | '/programs'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/contact'
     | '/faq'
     | '/login'
     | '/programs'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/contact'
     | '/faq'
     | '/login'
     | '/programs'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   LoginRoute: typeof LoginRoute
   ProgramsRoute: typeof ProgramsRouteWithChildren
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/faq'
       preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -189,6 +209,7 @@ const ProgramsRouteWithChildren = ProgramsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   LoginRoute: LoginRoute,
   ProgramsRoute: ProgramsRouteWithChildren,
