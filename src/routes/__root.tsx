@@ -79,9 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Skillnex teaches digital skills that pay. Learn from real projects, ship a portfolio, and start earning." },
       { name: "author", content: "Skillnex" },
       { property: "og:title", content: "Skillnex — Future skills start here" },
-      { property: "og:description", content: "Practical digital skills with real projects, mentorship, and a path to income." },
+      { property: "og:description", content: "Skillnex teaches digital skills that pay. Learn from real projects, ship a portfolio, and start earning." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Skillnex — Future skills start here" },
+      { name: "twitter:description", content: "Skillnex teaches digital skills that pay. Learn from real projects, ship a portfolio, and start earning." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b54d353b-7a60-4ddb-bc9e-565a4c7ea685/id-preview-5f0cd5e6--181c782d-f599-4f93-bbc7-9a4fdbd254a5.lovable.app-1779440817381.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b54d353b-7a60-4ddb-bc9e-565a4c7ea685/id-preview-5f0cd5e6--181c782d-f599-4f93-bbc7-9a4fdbd254a5.lovable.app-1779440817381.png" },
     ],
     links: [
       {
