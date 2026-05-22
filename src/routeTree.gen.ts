@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProgramsRouteImport } from './routes/programs'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -26,6 +27,11 @@ const SignupRoute = SignupRouteImport.update({
 const ProgramsRoute = ProgramsRouteImport.update({
   id: '/programs',
   path: '/programs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -65,6 +71,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/signup': typeof SignupRoute
   '/programs/$slug': typeof ProgramsSlugRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/signup': typeof SignupRoute
   '/programs/$slug': typeof ProgramsSlugRoute
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
+  '/pricing': typeof PricingRoute
   '/programs': typeof ProgramsRouteWithChildren
   '/signup': typeof SignupRoute
   '/programs/$slug': typeof ProgramsSlugRoute
@@ -98,6 +107,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/login'
+    | '/pricing'
     | '/programs'
     | '/signup'
     | '/programs/$slug'
@@ -108,6 +118,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/login'
+    | '/pricing'
     | '/programs'
     | '/signup'
     | '/programs/$slug'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/faq'
     | '/login'
+    | '/pricing'
     | '/programs'
     | '/signup'
     | '/programs/$slug'
@@ -129,6 +141,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   FaqRoute: typeof FaqRoute
   LoginRoute: typeof LoginRoute
+  PricingRoute: typeof PricingRoute
   ProgramsRoute: typeof ProgramsRouteWithChildren
   SignupRoute: typeof SignupRoute
 }
@@ -147,6 +160,13 @@ declare module '@tanstack/react-router' {
       path: '/programs'
       fullPath: '/programs'
       preLoaderRoute: typeof ProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -212,6 +232,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   FaqRoute: FaqRoute,
   LoginRoute: LoginRoute,
+  PricingRoute: PricingRoute,
   ProgramsRoute: ProgramsRouteWithChildren,
   SignupRoute: SignupRoute,
 }
