@@ -13,6 +13,7 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProgramsSlugRouteImport } from './routes/programs.$slug'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -34,38 +35,46 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgramsSlugRoute = ProgramsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ProgramsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/programs': typeof ProgramsRoute
+  '/programs': typeof ProgramsRouteWithChildren
   '/signup': typeof SignupRoute
+  '/programs/$slug': typeof ProgramsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/programs': typeof ProgramsRoute
+  '/programs': typeof ProgramsRouteWithChildren
   '/signup': typeof SignupRoute
+  '/programs/$slug': typeof ProgramsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/programs': typeof ProgramsRoute
+  '/programs': typeof ProgramsRouteWithChildren
   '/signup': typeof SignupRoute
+  '/programs/$slug': typeof ProgramsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/programs' | '/signup'
+  fullPaths: '/' | '/login' | '/programs' | '/signup' | '/programs/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/programs' | '/signup'
-  id: '__root__' | '/' | '/login' | '/programs' | '/signup'
+  to: '/' | '/login' | '/programs' | '/signup' | '/programs/$slug'
+  id: '__root__' | '/' | '/login' | '/programs' | '/signup' | '/programs/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
-  ProgramsRoute: typeof ProgramsRoute
+  ProgramsRoute: typeof ProgramsRouteWithChildren
   SignupRoute: typeof SignupRoute
 }
 
@@ -99,13 +108,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/programs/$slug': {
+      id: '/programs/$slug'
+      path: '/$slug'
+      fullPath: '/programs/$slug'
+      preLoaderRoute: typeof ProgramsSlugRouteImport
+      parentRoute: typeof ProgramsRoute
+    }
   }
 }
+
+interface ProgramsRouteChildren {
+  ProgramsSlugRoute: typeof ProgramsSlugRoute
+}
+
+const ProgramsRouteChildren: ProgramsRouteChildren = {
+  ProgramsSlugRoute: ProgramsSlugRoute,
+}
+
+const ProgramsRouteWithChildren = ProgramsRoute._addFileChildren(
+  ProgramsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
-  ProgramsRoute: ProgramsRoute,
+  ProgramsRoute: ProgramsRouteWithChildren,
   SignupRoute: SignupRoute,
 }
 export const routeTree = rootRouteImport
