@@ -2,7 +2,7 @@
 @source "../src";
 @import "tw-animate-css";
 
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -28,8 +28,12 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'DM Serif Display', ui-serif, Georgia, serif;
+  --font-sans: 'Fira Sans', ui-sans-serif, system-ui, sans-serif;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-linen: var(--linen);
+  --color-rule: var(--rule);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -66,27 +70,32 @@
 }
 
 :root {
-  /* Editorial Narrative palette */
-  --radius: 0.5rem;
-  --background: oklch(0.985 0 0);          /* #fafafa page */
-  --foreground: oklch(0.18 0 0);           /* #171717 ink */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0 0);
-  --primary: oklch(0.18 0 0);              /* ink */
-  --primary-foreground: oklch(0.985 0 0);  /* page */
-  --secondary: oklch(0.95 0 0);
-  --secondary-foreground: oklch(0.18 0 0);
-  --muted: oklch(0.95 0 0);
-  --muted-foreground: oklch(0.52 0 0);     /* #737373 */
-  --accent: oklch(0.27 0 0);               /* deep ink */
-  --accent-foreground: oklch(0.985 0 0);
+  /* Paper & Ink — Swiss editorial */
+  --radius: 0.25rem;
+  --paper: oklch(0.965 0.005 85);         /* #f5f3ee */
+  --linen: oklch(0.925 0.008 80);         /* #e8e4dd */
+  --ink: oklch(0.18 0 0);                  /* #2d2d2d */
+  --ink-deep: oklch(0.12 0 0);             /* #0d0d0d */
+  --rule: oklch(0.18 0 0 / 0.12);
+  --background: var(--paper);
+  --foreground: var(--ink-deep);
+  --card: var(--linen);
+  --card-foreground: var(--ink-deep);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink-deep);
+  --primary: var(--ink-deep);
+  --primary-foreground: var(--paper);
+  --secondary: var(--linen);
+  --secondary-foreground: var(--ink-deep);
+  --muted: var(--linen);
+  --muted-foreground: oklch(0.4 0 0);
+  --accent: var(--ink);
+  --accent-foreground: var(--paper);
   --destructive: oklch(0.55 0.22 27);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.18 0 0 / 0.08);
-  --input: oklch(0.18 0 0 / 0.12);
-  --ring: oklch(0.27 0 0);
+  --destructive-foreground: var(--paper);
+  --border: var(--rule);
+  --input: oklch(0.18 0 0 / 0.18);
+  --ring: var(--ink-deep);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -147,9 +156,53 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01", "cv11";
   }
 
   .font-serif {
     font-family: var(--font-serif);
+    letter-spacing: -0.015em;
+  }
+
+  ::selection {
+    background-color: var(--ink-deep);
+    color: var(--paper);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .hairline {
+    border-color: var(--rule);
+  }
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .marquee-track {
+    animation: marquee 40s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .ink-section {
+    background-color: var(--ink-deep);
+    color: var(--paper);
+  }
+  .ink-section .hairline { border-color: oklch(1 0 0 / 0.12); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
   }
 }

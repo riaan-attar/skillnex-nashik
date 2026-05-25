@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { ScrollReveal } from "@/components/motion/ScrollReveal";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
@@ -32,48 +34,85 @@ const FAQS = {
 
 function FaqPage() {
   const [tab, setTab] = useState<keyof typeof FAQS>("Students");
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
   const items = FAQS[tab];
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="max-w-3xl mx-auto px-6 pt-32 pb-24 text-center">
-        <span className="text-xs uppercase tracking-[0.2em] font-medium text-muted-foreground">Skillnex</span>
-        <h1 className="text-5xl md:text-6xl font-serif italic mt-3 mb-4">Frequently Asked Questions</h1>
-        <p className="text-muted-foreground mb-10">Find answers to common questions about Skillnex.</p>
+      <main className="pt-40 pb-24">
+        <section className="max-w-[1400px] mx-auto px-6 mb-20">
+          <ScrollReveal>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-12 h-px bg-foreground" />
+              <span className="text-[10px] uppercase tracking-[0.3em] text-foreground/60">Appendix</span>
+            </div>
+            <h1 className="font-serif text-6xl md:text-[8rem] leading-[0.9] max-w-[16ch]">
+              Questions, <span className="italic text-foreground/60">answered.</span>
+            </h1>
+          </ScrollReveal>
+        </section>
 
-        <div className="inline-flex gap-2 rounded-full p-1 ring-1 ring-border bg-secondary/50 mb-12">
-          {(Object.keys(FAQS) as Array<keyof typeof FAQS>).map((k) => (
-            <button
-              key={k}
-              onClick={() => setTab(k)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
-                tab === k ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {k}
-            </button>
-          ))}
-        </div>
+        <section className="max-w-[1400px] mx-auto px-6 grid md:grid-cols-[200px_1fr] gap-16">
+          <aside className="md:sticky md:top-32 self-start">
+            <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/60 mb-4">Audience</p>
+            <nav className="flex md:flex-col gap-1">
+              {(Object.keys(FAQS) as Array<keyof typeof FAQS>).map((k) => (
+                <button
+                  key={k}
+                  onClick={() => { setTab(k); setOpenIdx(0); }}
+                  className={`text-left font-serif text-2xl py-2 transition-colors ${
+                    tab === k ? "italic text-foreground" : "text-foreground/40 hover:text-foreground"
+                  }`}
+                >
+                  {k}
+                </button>
+              ))}
+            </nav>
+          </aside>
 
-        <div className="space-y-3 text-left">
-          {items.map((item) => (
-            <details key={item.q} className="group rounded-xl ring-1 ring-border p-5 open:bg-secondary/30">
-              <summary className="cursor-pointer flex justify-between items-center font-medium">
-                {item.q}
-                <span className="text-muted-foreground group-open:rotate-180 transition-transform">⌃</span>
-              </summary>
-              <p className="mt-3 text-sm text-muted-foreground">{item.a}</p>
-            </details>
-          ))}
-        </div>
+          <div>
+            {items.map((item, i) => {
+              const isOpen = openIdx === i;
+              return (
+                <div key={item.q} className="border-b border-foreground/10">
+                  <button
+                    onClick={() => setOpenIdx(isOpen ? null : i)}
+                    className="w-full text-left py-8 flex items-start justify-between gap-6 group"
+                  >
+                    <div className="flex items-baseline gap-6">
+                      <span className="font-serif italic text-foreground/30 text-lg">{String(i + 1).padStart(2, "0")}</span>
+                      <h3 className="font-serif text-2xl md:text-3xl group-hover:italic transition-all">{item.q}</h3>
+                    </div>
+                    <motion.span animate={{ rotate: isOpen ? 45 : 0 }} className="font-serif text-3xl shrink-0">+</motion.span>
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pb-8 pl-12 text-foreground/70 text-lg max-w-[60ch] leading-relaxed">{item.a}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+        </section>
 
-        <div className="mt-24">
-          <h3 className="text-3xl font-serif italic mb-6">Still have questions?</h3>
-          <Link to="/contact" className="inline-flex bg-foreground text-background px-6 py-3 rounded-full text-sm font-medium">
-            Contact us
-          </Link>
-        </div>
+        <section className="max-w-[1400px] mx-auto px-6 mt-32 text-center">
+          <ScrollReveal>
+            <h3 className="font-serif text-5xl md:text-6xl">Still <span className="italic">turning</span> the page?</h3>
+            <Link to="/contact" className="mt-8 inline-flex items-center gap-3 bg-foreground text-background px-8 py-4 rounded-sm">
+              Reach the studio <span className="font-serif italic text-xl">→</span>
+            </Link>
+          </ScrollReveal>
+        </section>
       </main>
       <Footer />
     </div>
