@@ -15,4 +15,7 @@ export default defineConfig({
     tailwindcss(),
     tsConfigPaths({ projects: ["./tsconfig.json"] }),
   ],
+  ssr: {
+    noExternal: true, // Force Vite to bundle all dependencies for the server
+  }
 });
