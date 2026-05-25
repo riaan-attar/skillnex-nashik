@@ -5,6 +5,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { MagneticButton } from "@/components/motion/MagneticButton";
 import { getCourseBySlug, enrollFree } from "@/lib/courses.functions";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -74,80 +76,95 @@ function CoursePage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="max-w-7xl mx-auto px-6 pt-32 pb-24">
-        <Link to="/programs" className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground">
-          ← Back to programs
-        </Link>
+      <main className="pt-32 pb-24">
+        <section className="max-w-[1400px] mx-auto px-6">
+          <Link to="/programs" className="text-[10px] uppercase tracking-[0.3em] text-foreground/60 hover:text-foreground inline-flex items-center gap-2">
+            <span className="font-serif italic">←</span> All programs
+          </Link>
 
-        <div className="grid lg:grid-cols-3 gap-12 mt-8">
-          <div className="lg:col-span-2 space-y-8">
-            <div>
-              <span className="text-xs uppercase tracking-[0.2em] font-medium text-muted-foreground">
+          <ScrollReveal className="mt-8 grid lg:grid-cols-12 gap-12 items-end mb-16">
+            <div className="lg:col-span-8">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/60 mb-4">
                 {course.category ?? "Program"} {course.level ? `· ${course.level}` : ""}
-              </span>
-              <h1 className="text-5xl md:text-6xl font-serif italic mt-3 leading-tight text-balance">{course.title}</h1>
-              {course.subtitle && <p className="text-xl text-muted-foreground mt-4">{course.subtitle}</p>}
+              </p>
+              <h1 className="font-serif text-5xl md:text-7xl leading-[0.95] text-balance">{course.title}</h1>
+              {course.subtitle && <p className="font-serif italic text-2xl text-foreground/60 mt-6 max-w-[36ch]">{course.subtitle}</p>}
             </div>
+            <div className="lg:col-span-4">
+              <p className="font-serif text-7xl">
+                {course.price_cents === 0 ? <span className="italic">Free</span> : `$${(course.price_cents / 100).toFixed(0)}`}
+              </p>
+              <p className="text-foreground/60 text-sm">One-time · Lifetime access</p>
+            </div>
+          </ScrollReveal>
+        </section>
 
-            {course.cover_image_url && (
-              <div className="aspect-video rounded-xl overflow-hidden ring-1 ring-black/5">
-                <img src={course.cover_image_url} alt={course.title} className="w-full h-full object-cover" />
-              </div>
-            )}
+        {course.cover_image_url && (
+          <ScrollReveal className="mb-20">
+            <div className="aspect-[21/9] overflow-hidden bg-card">
+              <img src={course.cover_image_url} alt={course.title} className="w-full h-full object-cover" />
+            </div>
+          </ScrollReveal>
+        )}
 
+        <section className="max-w-[1400px] mx-auto px-6 grid lg:grid-cols-3 gap-16">
+          <div className="lg:col-span-2 space-y-16">
             {course.description && (
-              <div className="prose max-w-none">
-                <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{course.description}</p>
-              </div>
+              <ScrollReveal>
+                <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/60 mb-6">Overview</p>
+                <p className="font-serif text-2xl md:text-3xl leading-snug text-foreground/85 whitespace-pre-line text-pretty">
+                  {course.description}
+                </p>
+              </ScrollReveal>
             )}
 
-            <section>
-              <h2 className="text-2xl font-serif italic mb-6">The Syllabus</h2>
-              <ol className="space-y-3">
+            <ScrollReveal>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/60 mb-8">The Syllabus</p>
+              <ol>
                 {data.lessons.map((l, i) => (
-                  <li key={l.id} className="flex items-start gap-4 p-4 rounded-lg ring-1 ring-border bg-card">
-                    <span className="font-serif italic text-2xl text-muted-foreground/60 w-10 shrink-0">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-medium">{l.title}</h4>
-                        {l.is_free_preview && (
-                          <span className="text-[10px] uppercase tracking-widest bg-foreground text-background px-2 py-0.5 rounded">
-                            Free preview
-                          </span>
-                        )}
-                      </div>
-                      {l.description && <p className="text-sm text-muted-foreground mt-1">{l.description}</p>}
+                  <li key={l.id} className="group border-t border-foreground/10 last:border-b py-6 grid grid-cols-[60px_1fr_auto] gap-6 items-start hover:bg-card/50 transition-colors px-2 -mx-2">
+                    <span className="font-serif italic text-3xl text-foreground/30">{String(i + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h4 className="font-serif text-2xl group-hover:italic transition-all">{l.title}</h4>
+                      {l.description && <p className="text-sm text-foreground/60 mt-2 max-w-[60ch]">{l.description}</p>}
                     </div>
+                    {l.is_free_preview && (
+                      <span className="text-[10px] uppercase tracking-[0.25em] bg-foreground text-background px-2 py-1 self-start">Free preview</span>
+                    )}
                   </li>
                 ))}
               </ol>
-            </section>
+            </ScrollReveal>
           </div>
 
-          <aside className="space-y-4 lg:sticky lg:top-24 self-start">
-            <div className="p-6 rounded-xl ring-1 ring-border bg-card">
-              <div className="text-3xl font-serif italic mb-2">
-                {course.price_cents === 0 ? "Free" : `$${(course.price_cents / 100).toFixed(0)}`}
-              </div>
-              <p className="text-xs text-muted-foreground mb-6">Lifetime access · Certificate · Community</p>
-              <button
-                onClick={onEnroll}
-                disabled={enrolling}
-                className="w-full py-3 rounded-full bg-foreground text-background font-medium disabled:opacity-60"
-              >
-                {enrolling ? "Enrolling…" : user ? (course.price_cents === 0 ? "Enroll now" : "Buy course") : "Sign in to enroll"}
-              </button>
+          <aside className="lg:sticky lg:top-32 self-start">
+            <div className="ink-section p-8 rounded-sm">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-background/50 mb-4">Enroll</p>
+              <p className="font-serif text-6xl mb-2">
+                {course.price_cents === 0 ? <span className="italic">Free</span> : `$${(course.price_cents / 100).toFixed(0)}`}
+              </p>
+              <p className="text-background/60 text-sm mb-8 border-b border-background/15 pb-6">
+                Lifetime access · Certificate · Community
+              </p>
+              <MagneticButton asChild>
+                <button
+                  onClick={onEnroll}
+                  disabled={enrolling}
+                  className="w-full py-4 rounded-sm bg-background text-foreground disabled:opacity-60 flex items-center justify-between px-6 group"
+                >
+                  <span>{enrolling ? "Enrolling…" : user ? (course.price_cents === 0 ? "Enroll now" : "Buy course") : "Sign in to enroll"}</span>
+                  <span className="font-serif italic text-xl group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+              </MagneticButton>
               <Link
                 to="/pricing"
-                className="block text-center w-full mt-3 py-3 rounded-full ring-1 ring-border font-medium text-sm hover:bg-secondary"
+                className="block text-center w-full mt-3 py-4 rounded-sm border border-background/20 hover:border-background/60 text-sm transition-colors"
               >
                 Or get All-Access
               </Link>
             </div>
           </aside>
-        </div>
+        </section>
       </main>
       <Footer />
     </div>
