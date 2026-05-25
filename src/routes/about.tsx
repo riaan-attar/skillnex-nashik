@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { BentoTile } from "@/components/site/BentoTile";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -25,41 +27,74 @@ function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="max-w-4xl mx-auto px-6 pt-32 pb-24">
-        <span className="text-xs uppercase tracking-[0.2em] font-medium text-muted-foreground">About Skillnex</span>
-        <h1 className="text-5xl md:text-6xl font-serif italic mt-3 mb-6">Building practical skills for real-world success.</h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mb-16">
-          Skillnex is a digital education platform focused on helping students and beginners learn practical, job-ready skills through real projects and mentorship.
-        </p>
-
-        <section className="mb-20">
-          <h2 className="font-serif italic text-3xl mb-4">Our Mission</h2>
-          <p className="text-muted-foreground max-w-2xl">
-            To bridge the gap between learning and real-world work by providing practical training and hands-on experience.
-          </p>
+      <main className="pt-40">
+        <section className="max-w-[1400px] mx-auto px-6 pb-32">
+          <ScrollReveal>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-12 h-px bg-foreground" />
+              <span className="text-[10px] uppercase tracking-[0.3em] text-foreground/60">The Studio</span>
+            </div>
+            <h1 className="font-serif text-6xl md:text-[9rem] leading-[0.9] max-w-[14ch]">
+              We teach what <span className="italic text-foreground/60">we ship.</span>
+            </h1>
+          </ScrollReveal>
         </section>
 
-        <section className="mb-20">
-          <h2 className="font-serif italic text-3xl mb-8">What We Do</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {values.map((v) => (
-              <div key={v.t} className="p-6 rounded-xl ring-1 ring-border">
-                <h3 className="font-medium mb-2">{v.t}</h3>
-                <p className="text-sm text-muted-foreground">{v.d}</p>
-              </div>
+        <section className="bg-card border-y border-foreground/10">
+          <div className="max-w-[1400px] mx-auto px-6 py-32 grid md:grid-cols-12 gap-12">
+            <ScrollReveal className="md:col-span-5">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/60 mb-6">Our Mission</p>
+              <h2 className="font-serif text-4xl md:text-5xl italic leading-tight">
+                To close the distance between learning and earning.
+              </h2>
+            </ScrollReveal>
+            <ScrollReveal delay={0.1} className="md:col-span-7 md:pt-2">
+              <p className="text-xl text-foreground/80 leading-relaxed text-pretty">
+                <span className="font-serif text-6xl float-left mr-3 mt-1 leading-none">S</span>killnex is a digital education studio focused on real practice. We believe most courses fail not because of content, but because of context. So we built one that works the way modern studios work — short cycles, real briefs, working pros reviewing real output.
+              </p>
+              <p className="text-foreground/70 mt-6 leading-relaxed">
+                Every program is paced like a magazine — chapters, kickers, and a finished portfolio piece at the end. Whether you're a college student exploring a stream or a working professional adding a discipline, the structure stays the same: ship something real.
+              </p>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        <section className="max-w-[1400px] mx-auto px-6 py-32">
+          <ScrollReveal>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/60 mb-6">What we do</p>
+            <h2 className="font-serif text-5xl md:text-6xl mb-16 max-w-[16ch]">Four pillars. <span className="italic text-foreground/60">One outcome.</span></h2>
+          </ScrollReveal>
+          <div className="grid grid-cols-12 gap-4">
+            {values.map((v, i) => (
+              <ScrollReveal key={v.t} delay={i * 0.08} className="col-span-12 md:col-span-6 lg:col-span-3">
+                <BentoTile className="p-8 h-full min-h-[260px] flex flex-col justify-between">
+                  <p className="font-serif text-5xl text-foreground/15">0{i + 1}</p>
+                  <div>
+                    <h3 className="font-serif italic text-2xl mb-3">{v.t}</h3>
+                    <p className="text-sm text-foreground/70">{v.d}</p>
+                  </div>
+                </BentoTile>
+              </ScrollReveal>
             ))}
           </div>
         </section>
 
-        <section>
-          <h2 className="font-serif italic text-3xl mb-8">Our Approach</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {["Learn by doing", "Build real projects", "Develop portfolio", "Seize opportunities"].map((step, i) => (
-              <div key={step} className="space-y-2">
-                <span className="size-8 rounded-full bg-foreground text-background grid place-items-center text-xs font-medium">{i + 1}</span>
-                <p className="font-medium">{step}</p>
-              </div>
-            ))}
+        <section className="ink-section py-32">
+          <div className="max-w-[1400px] mx-auto px-6">
+            <ScrollReveal>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-background/60 mb-6">Our Approach</p>
+              <h2 className="font-serif text-5xl md:text-6xl mb-16 max-w-[20ch]">From <span className="italic text-background/60">curious</span> to <span className="italic text-background/60">cashflow</span> in four moves.</h2>
+            </ScrollReveal>
+            <div className="grid md:grid-cols-4 gap-8">
+              {["Learn by doing", "Build real projects", "Develop portfolio", "Seize opportunities"].map((step, i) => (
+                <ScrollReveal key={step} delay={i * 0.08}>
+                  <div className="border-t border-background/30 pt-6">
+                    <p className="font-serif text-5xl text-background/40 mb-4">0{i + 1}</p>
+                    <p className="font-serif italic text-2xl">{step}</p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
           </div>
         </section>
       </main>
