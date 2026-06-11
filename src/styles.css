@@ -70,32 +70,32 @@
 }
 
 :root {
-  /* Paper & Ink — Swiss editorial */
+  /* Obsidian — dark editorial */
   --radius: 0.25rem;
-  --paper: oklch(0.965 0.005 85);         /* #f5f3ee */
-  --linen: oklch(0.925 0.008 80);         /* #e8e4dd */
-  --ink: oklch(0.18 0 0);                  /* #2d2d2d */
-  --ink-deep: oklch(0.12 0 0);             /* #0d0d0d */
-  --rule: oklch(0.18 0 0 / 0.12);
-  --background: var(--paper);
-  --foreground: var(--ink-deep);
+  --paper: oklch(0.97 0.01 85);            /* warm white */
+  --linen: oklch(0.18 0.005 85);           /* card surface */
+  --ink: oklch(0.10 0.005 85);             /* near black */
+  --ink-deep: oklch(0.06 0.005 85);        /* page bg */
+  --rule: oklch(1 0 0 / 0.10);
+  --background: var(--ink-deep);
+  --foreground: var(--paper);
   --card: var(--linen);
-  --card-foreground: var(--ink-deep);
-  --popover: var(--paper);
-  --popover-foreground: var(--ink-deep);
-  --primary: var(--ink-deep);
-  --primary-foreground: var(--paper);
+  --card-foreground: var(--paper);
+  --popover: var(--linen);
+  --popover-foreground: var(--paper);
+  --primary: var(--paper);
+  --primary-foreground: var(--ink-deep);
   --secondary: var(--linen);
-  --secondary-foreground: var(--ink-deep);
+  --secondary-foreground: var(--paper);
   --muted: var(--linen);
-  --muted-foreground: oklch(0.4 0 0);
-  --accent: var(--ink);
-  --accent-foreground: var(--paper);
+  --muted-foreground: oklch(0.72 0.01 85);
+  --accent: var(--paper);
+  --accent-foreground: var(--ink-deep);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: var(--paper);
   --border: var(--rule);
-  --input: oklch(0.18 0 0 / 0.18);
-  --ring: var(--ink-deep);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: var(--paper);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -196,10 +196,22 @@
   }
 
   .ink-section {
-    background-color: var(--ink-deep);
-    color: var(--paper);
+    background-color: var(--paper);
+    color: var(--ink-deep);
   }
-  .ink-section .hairline { border-color: oklch(1 0 0 / 0.12); }
+  .ink-section .hairline { border-color: oklch(0 0 0 / 0.12); }
+
+  .grain {
+    background-image:
+      radial-gradient(oklch(1 0 0 / 0.04) 1px, transparent 1px),
+      radial-gradient(oklch(1 0 0 / 0.02) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 1px;
+  }
+
+  .glow-ring {
+    box-shadow: 0 0 0 1px oklch(1 0 0 / 0.08), 0 30px 80px -20px oklch(0 0 0 / 0.6);
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }
