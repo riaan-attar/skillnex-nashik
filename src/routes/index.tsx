@@ -311,17 +311,25 @@ function Ecosystem() {
         ))}
         {/* center */}
         <motion.div
-          initial={{ scale: 0.6, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute inset-0 m-auto size-32 rounded-full bg-foreground text-background flex flex-col items-center justify-center"
+          animate={{ y: [0, -14, 0, -8, 0], scale: [1, 1.04, 1, 1.02, 1] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 m-auto size-32 rounded-full bg-foreground text-background flex flex-col items-center justify-center shadow-2xl"
         >
-          <Sparkles className="size-5 mb-1" />
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          >
+            <Sparkles className="size-5 mb-1" />
+          </motion.div>
           <span className="font-serif text-xl">Skillnex</span>
           <span className="text-[10px] uppercase tracking-[0.3em] opacity-60 mt-0.5">Core</span>
         </motion.div>
-        {/* nodes */}
+        {/* orbiting nodes — wrapper rotates, inner counter-rotates */}
+        <motion.div
+          className="absolute inset-0"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        >
         {nodes.map((n, i) => {
           const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
           const r = 45;
@@ -331,24 +339,28 @@ function Ecosystem() {
           return (
             <motion.div
               key={n.label}
-              initial={{ opacity: 0, scale: 0.5 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 + i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="absolute -translate-x-1/2 -translate-y-1/2"
               style={{ left: `${x}%`, top: `${y}%` }}
             >
-              <div className="flex flex-col items-center gap-2">
-                <div className="size-14 rounded-full bg-card border border-foreground/15 flex items-center justify-center">
+              <motion.div
+                animate={{ rotate: -360, y: [0, -6, 0] }}
+                transition={{
+                  rotate: { duration: 30, repeat: Infinity, ease: "linear" },
+                  y: { duration: 2.4 + i * 0.2, repeat: Infinity, ease: "easeInOut" },
+                }}
+                className="flex flex-col items-center gap-2"
+              >
+                <div className="size-14 rounded-full bg-card border border-foreground/15 flex items-center justify-center shadow-md">
                   <Icon className="size-5 text-foreground/80" />
                 </div>
                 <span className="text-[10px] uppercase tracking-[0.25em] text-foreground/60 whitespace-nowrap">
                   {n.label}
                 </span>
-              </div>
+              </motion.div>
             </motion.div>
           );
         })}
+        </motion.div>
       </div>
       <p className="text-center max-w-xl mx-auto mt-12 text-foreground/60 leading-relaxed">
         Every part of Skillnex feeds the next. Learn a discipline, ship a brief, get matched, get
@@ -482,9 +494,7 @@ function CareerTracks() {
 }
 
 /* ─── PREMIUM PROGRAMS — horizontal scroll ──────── */
-function PremiumPrograms({
-  courses,
-}: {
+function PremiumPrograms(_props: {
   courses: Array<{
     id: string;
     slug: string;
@@ -496,57 +506,64 @@ function PremiumPrograms({
     price_cents: number;
   }>;
 }) {
-  const fallback = [
+  const items = [
+    {
+      title: "Video Editing",
+      subtitle: "Cut, color and score films that hold the scroll — Premiere, DaVinci, sound and finishing.",
+      tag: "Studio · 12 weeks",
+      slug: "video-editing",
+    },
+    {
+      title: "Graphic Designing",
+      subtitle: "Identity, type, layout and motion — design systems for the modern internet.",
+      tag: "Studio · 10 weeks",
+      slug: "graphic-designing",
+    },
+    {
+      title: "Social Media Management",
+      subtitle: "Strategy, calendars, content and community — run brand pages that actually grow.",
+      tag: "Operator · 8 weeks",
+      slug: "social-media-management",
+    },
     {
       title: "Performance Marketing",
-      subtitle: "Master paid acquisition end-to-end",
+      subtitle: "Meta, Google, creative testing and attribution — paid acquisition end-to-end.",
       tag: "Flagship · 12 weeks",
       slug: "performance-marketing",
     },
     {
-      title: "Brand & Design",
-      subtitle: "Build identities that survive the scroll",
-      tag: "Studio · 10 weeks",
-      slug: "brand-design",
-    },
-    {
-      title: "AI for Creators",
-      subtitle: "Co-pilot your way through production",
+      title: "AI In Digital Marketing",
+      subtitle: "Use modern AI as a co-pilot for ideation, production and growth pipelines.",
       tag: "New · 8 weeks",
-      slug: "ai-for-creators",
-    },
-    {
-      title: "Video Storytelling",
-      subtitle: "From hook to feature film grammar",
-      tag: "Studio · 12 weeks",
-      slug: "video-storytelling",
-    },
-    {
-      title: "Growth Engineering",
-      subtitle: "Build the funnel, then break it",
-      tag: "Operator · 10 weeks",
-      slug: "growth-engineering",
+      slug: "ai-in-digital-marketing",
     },
   ];
 
-  const items =
-    courses.length >= 3
-      ? courses.slice(0, 6).map((c) => ({
-          title: c.title,
-          subtitle: c.subtitle || c.description || "",
-          tag: c.category || "Program",
-          slug: c.slug,
-        }))
-      : fallback;
-
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [distance, setDistance] = useState(0);
   const reduced = useReducedMotion();
-  // pan distance reduced so last card lands in view
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", reduced ? "0%" : "-72%"]);
+
+  useEffect(() => {
+    const measure = () => {
+      if (!trackRef.current) return;
+      const trackW = trackRef.current.scrollWidth;
+      const viewW = window.innerWidth;
+      setDistance(Math.max(0, trackW - viewW));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  const x = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -distance]);
+
+  // dynamic section height — enough vertical scroll to pan the full track
+  const sectionHeight = `calc(100vh + ${distance}px)`;
 
   return (
-    <section ref={ref} className="relative" style={{ height: "260vh" }}>
+    <section ref={ref} className="relative" style={{ height: sectionHeight }}>
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
         <div className="px-6 pt-24 pb-10">
           <div className="max-w-[1400px] mx-auto flex items-end justify-between flex-wrap gap-6">
@@ -566,11 +583,15 @@ function PremiumPrograms({
         </div>
 
         <div className="flex-1 flex items-center">
-          <motion.div style={{ x }} className="flex gap-6 px-6 will-change-transform">
+          <motion.div
+            ref={trackRef}
+            style={{ x }}
+            className="flex gap-6 px-6 will-change-transform"
+          >
             {items.map((c, i) => (
               <ProgramCard key={c.slug + i} index={i} {...c} />
             ))}
-            <div className="w-[20vw] shrink-0" />
+            <div className="w-[6vw] shrink-0" />
           </motion.div>
         </div>
       </div>
@@ -706,10 +727,13 @@ function StudentWork() {
 /* ─── NUMBERS STRIP ─────────────────────────────── */
 function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: false, margin: "-80px" });
   const [val, setVal] = useState(0);
   useEffect(() => {
-    if (!inView) return;
+    if (!inView) {
+      setVal(0);
+      return;
+    }
     const controls = animate(0, to, {
       duration: 1.8,
       ease: [0.16, 1, 0.3, 1],
@@ -872,7 +896,7 @@ function CareerAssessment() {
                 key={i}
                 initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false, amount: 0.3 }}
                 transition={{ delay: i * 0.18 }}
                 className={i >= terminal.length - 3 ? "text-foreground" : "text-foreground/60"}
               >
