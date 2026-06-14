@@ -423,12 +423,12 @@ function CareerTracks() {
               onClick={() => setActive(i)}
               className={`group relative shrink-0 text-left px-4 py-4 rounded-sm border transition-all ${
                 active === i
-                  ? "border-foreground/40 bg-card text-foreground"
+                  ? "border-neon/60 bg-card text-foreground shadow-neon"
                   : "border-foreground/10 hover:border-foreground/25 text-foreground/60 hover:text-foreground/85"
               }`}
             >
               <span className="flex items-center gap-3">
-                <span className="font-serif italic text-xs text-foreground/40 tabular-nums">
+                <span className={`font-serif italic text-xs tabular-nums ${active === i ? "text-neon" : "text-foreground/40"}`}>
                   0{i + 1}
                 </span>
                 <span className="text-sm whitespace-nowrap md:whitespace-normal">{t.name}</span>
@@ -436,7 +436,7 @@ function CareerTracks() {
               {active === i && (
                 <motion.span
                   layoutId="track-pill"
-                  className="absolute left-0 top-0 bottom-0 w-px bg-foreground"
+                  className="absolute left-0 top-0 bottom-0 w-[2px] bg-neon shadow-neon"
                 />
               )}
             </button>
@@ -453,10 +453,10 @@ function CareerTracks() {
           <div className="absolute -top-24 -right-24 size-72 rounded-full bg-foreground/[0.05] blur-3xl" />
           <div className="relative p-8 md:p-12">
             <div className="flex items-center gap-3 mb-6">
-              <div className="size-10 rounded-sm bg-foreground/10 flex items-center justify-center">
-                <Icon className="size-5" />
+              <div className="size-10 rounded-sm bg-neon-soft border border-neon/40 flex items-center justify-center">
+                <Icon className="size-5 text-neon" />
               </div>
-              <span className="text-[10px] uppercase tracking-[0.3em] text-foreground/50">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-neon font-medium">
                 Track 0{active + 1}
               </span>
             </div>
@@ -465,14 +465,14 @@ function CareerTracks() {
 
             <div className="mt-10 grid sm:grid-cols-[1fr_auto] gap-8 items-end">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/40 mb-4">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-neon/80 font-medium mb-4">
                   Modules
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {track.modules.map((m) => (
                     <span
                       key={m}
-                      className="text-xs px-3 py-1.5 rounded-full border border-foreground/15 text-foreground/75"
+                      className="text-xs px-3 py-1.5 rounded-full border border-neon/40 text-foreground/85 hover:border-neon hover:text-neon transition-colors"
                     >
                       {m}
                     </span>
@@ -480,7 +480,7 @@ function CareerTracks() {
                 </div>
               </div>
               <div className="text-right max-w-xs">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/40 mb-2">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-neon/80 font-medium mb-2">
                   Outcome
                 </p>
                 <p className="font-serif italic text-lg leading-snug">{track.outcome}</p>
@@ -626,7 +626,7 @@ function ProgramCard({
       />
       <div className="relative h-full p-8 flex flex-col justify-between">
         <div className="flex items-start justify-between">
-          <span className="text-[10px] uppercase tracking-[0.3em] text-foreground/50">{tag}</span>
+          <span className="text-[10px] uppercase tracking-[0.3em] text-neon font-medium">{tag}</span>
           <span className="font-serif italic text-foreground/30 tabular-nums">0{index + 1}</span>
         </div>
         <div>
