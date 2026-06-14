@@ -77,6 +77,8 @@
   --ink: oklch(0.10 0.005 85);             /* near black */
   --ink-deep: oklch(0.06 0.005 85);        /* page bg */
   --rule: oklch(1 0 0 / 0.10);
+  --neon: oklch(0.92 0.22 125);            /* electric lime — accent */
+  --neon-soft: oklch(0.92 0.22 125 / 0.18);
   --background: var(--ink-deep);
   --foreground: var(--paper);
   --card: var(--linen);
