@@ -727,10 +727,13 @@ function StudentWork() {
 /* ─── NUMBERS STRIP ─────────────────────────────── */
 function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: false, margin: "-80px" });
   const [val, setVal] = useState(0);
   useEffect(() => {
-    if (!inView) return;
+    if (!inView) {
+      setVal(0);
+      return;
+    }
     const controls = animate(0, to, {
       duration: 1.8,
       ease: [0.16, 1, 0.3, 1],
@@ -893,7 +896,7 @@ function CareerAssessment() {
                 key={i}
                 initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false, amount: 0.3 }}
                 transition={{ delay: i * 0.18 }}
                 className={i >= terminal.length - 3 ? "text-foreground" : "text-foreground/60"}
               >
