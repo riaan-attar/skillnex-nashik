@@ -311,17 +311,25 @@ function Ecosystem() {
         ))}
         {/* center */}
         <motion.div
-          initial={{ scale: 0.6, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute inset-0 m-auto size-32 rounded-full bg-foreground text-background flex flex-col items-center justify-center"
+          animate={{ y: [0, -14, 0, -8, 0], scale: [1, 1.04, 1, 1.02, 1] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 m-auto size-32 rounded-full bg-foreground text-background flex flex-col items-center justify-center shadow-2xl"
         >
-          <Sparkles className="size-5 mb-1" />
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          >
+            <Sparkles className="size-5 mb-1" />
+          </motion.div>
           <span className="font-serif text-xl">Skillnex</span>
           <span className="text-[10px] uppercase tracking-[0.3em] opacity-60 mt-0.5">Core</span>
         </motion.div>
-        {/* nodes */}
+        {/* orbiting nodes — wrapper rotates, inner counter-rotates */}
+        <motion.div
+          className="absolute inset-0"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        >
         {nodes.map((n, i) => {
           const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
           const r = 45;
@@ -331,24 +339,28 @@ function Ecosystem() {
           return (
             <motion.div
               key={n.label}
-              initial={{ opacity: 0, scale: 0.5 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 + i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="absolute -translate-x-1/2 -translate-y-1/2"
               style={{ left: `${x}%`, top: `${y}%` }}
             >
-              <div className="flex flex-col items-center gap-2">
-                <div className="size-14 rounded-full bg-card border border-foreground/15 flex items-center justify-center">
+              <motion.div
+                animate={{ rotate: -360, y: [0, -6, 0] }}
+                transition={{
+                  rotate: { duration: 30, repeat: Infinity, ease: "linear" },
+                  y: { duration: 2.4 + i * 0.2, repeat: Infinity, ease: "easeInOut" },
+                }}
+                className="flex flex-col items-center gap-2"
+              >
+                <div className="size-14 rounded-full bg-card border border-foreground/15 flex items-center justify-center shadow-md">
                   <Icon className="size-5 text-foreground/80" />
                 </div>
                 <span className="text-[10px] uppercase tracking-[0.25em] text-foreground/60 whitespace-nowrap">
                   {n.label}
                 </span>
-              </div>
+              </motion.div>
             </motion.div>
           );
         })}
+        </motion.div>
       </div>
       <p className="text-center max-w-xl mx-auto mt-12 text-foreground/60 leading-relaxed">
         Every part of Skillnex feeds the next. Learn a discipline, ship a brief, get matched, get
