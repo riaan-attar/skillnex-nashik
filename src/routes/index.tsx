@@ -569,8 +569,8 @@ function PremiumPrograms(_props: {
           <div className="max-w-[1400px] mx-auto flex items-end justify-between flex-wrap gap-6">
             <div>
               <div className="flex items-center gap-3 mb-5">
-                <span className="w-12 h-px bg-foreground/40" />
-                <span className="text-[10px] uppercase tracking-[0.35em] text-foreground/50">
+                <span className="w-12 h-px bg-neon" />
+                <span className="text-[10px] uppercase tracking-[0.35em] text-neon font-medium">
                   Chapter 05 · The catalog
                 </span>
               </div>
