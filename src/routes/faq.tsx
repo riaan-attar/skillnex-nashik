@@ -16,19 +16,38 @@ export const Route = createFileRoute("/faq")({
 });
 
 const FAQS = {
-  Students: [
-    { q: "How do I start learning?", a: "Create an account, browse programs, and enroll in your first course. You can start watching lessons immediately." },
-    { q: "Do I need prior experience?", a: "No. Most programs are designed to take complete beginners to a job-ready level." },
-    { q: "Will I get practical projects?", a: "Yes. Every program is built around real briefs that become portfolio pieces." },
-    { q: "What skills will I learn?", a: "Depends on the program — from video editing and graphic design to social media management and performance marketing." },
+  Overview: [
+    { q: "What is Skillnex?", a: "Skillnex is a skill-focused ecosystem that bridges the gap between learning and real-world execution. We help students build practical skills, colleges create industry-ready talent, and companies build strong in-house teams." },
+    { q: "How is Skillnex different from traditional learning platforms?", a: "We start with skill-focused counselling to help you find the right path, then move into real execution through projects and mentorship — not just video courses." },
   ],
-  Firms: [
-    { q: "Can Skillnex train our team?", a: "Yes — we run custom workshops and ongoing programs for corporate teams. Reach out via the contact page." },
-    { q: "What's included in a corporate program?", a: "Discovery, syllabus, live sessions, project reviews, and outcome tracking." },
+  "Skill Counselling": [
+    { q: "How does skill-focused counselling work at Skillnex?", a: "We offer free 1-on-1 sessions to understand your strengths, interests, and career goals, then create a structured path based on real market demand." },
+    { q: "How do I choose the right niche or skill?", a: "Our counsellors help you identify your niche based on strengths, market demand, and career opportunities so you avoid wasting time on random learning." },
   ],
-  "College Tie-ups": [
-    { q: "How do campus programs work?", a: "We offer 15-day live workshops, 1-day seminars, and student-specific cohorts inside colleges." },
-    { q: "Who teaches?", a: "Working professionals from across the digital industry." },
+  "Learning & Execution": [
+    { q: "What kind of skills can I learn on Skillnex?", a: "Performance Marketing, Video Editing, Graphic Design, UI/UX, Full Stack Development, Social Media Management, and Soft Skills — all focused on practical, job-ready execution." },
+    { q: "Do I get real projects or just training?", a: "You work on real projects, live briefs, and simulations to build actual experience and a portfolio that stands out." },
+    { q: "How does Skillnex help in real-world execution?", a: "Every program is designed around hands-on work, not just theory. You learn by doing, building a portfolio as you progress." },
+  ],
+  "Mentorship & Growth": [
+    { q: "Will I get mentorship from industry experts?", a: "Yes. You'll receive guidance from working professionals who understand real industry needs and help you grow through your learning journey." },
+    { q: "How does Skillnex support my growth after learning?", a: "We provide continued mentorship, career guidance, and pathways to internships, freelance work, or placements." },
+  ],
+  Opportunities: [
+    { q: "How does Skillnex help me get internships or jobs?", a: "Top performers get matched to our hiring partner network with real introductions and portfolio reviews, not just job board listings." },
+    { q: "Can I work on real client projects?", a: "Yes. Many programs include live client briefs so you gain real-world experience while learning." },
+  ],
+  Colleges: [
+    { q: "How can colleges partner with Skillnex?", a: "We deliver campus-ready training programs, workshops, and webinars to make your students industry-ready. Contact us to discuss a partnership." },
+    { q: "How does Skillnex help make students industry-ready?", a: "We focus on practical skills, real projects, and execution over theory — preparing students for actual jobs, not just exams." },
+  ],
+  Corporates: [
+    { q: "How does Skillnex help companies build in-house teams?", a: "We assess skill gaps, design customized training plans, and deliver hands-on programs that train your team through real business challenges." },
+    { q: "Do you provide corporate training and team management?", a: "Yes. We offer skill gap assessments, role-specific training, hands-on execution, and performance tracking to ensure real ROI." },
+  ],
+  General: [
+    { q: "Is Skillnex suitable for beginners?", a: "Absolutely. Most programs are designed to take complete beginners to job-ready levels through structured, practical learning." },
+    { q: "How do I get started with Skillnex?", a: "Create an account, book a free skill counselling session, or browse programs and enroll directly. You can start learning immediately." },
   ],
 };
 

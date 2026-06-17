@@ -152,12 +152,18 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     font-feature-settings: "ss01", "cv11";
+    overflow-x: hidden;
   }
 
   .font-serif {
@@ -168,10 +174,6 @@
   ::selection {
     background-color: var(--ink-deep);
     color: var(--paper);
-  }
-
-  html {
-    scroll-behavior: smooth;
   }
 }
 

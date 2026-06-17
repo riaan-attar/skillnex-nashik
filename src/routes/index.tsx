@@ -78,7 +78,10 @@ function Index() {
       <DegreesVsSkills />
       <Ecosystem />
       <CareerTracks />
+      <MakeCampusSkillFocused />
+      <WorkshopAddOn />
       <PremiumPrograms courses={courses} />
+      <CorporateOffering />
       <OutcomesOverPromises />
       <StudentWork />
       <NumbersStrip />
@@ -155,9 +158,7 @@ function Hero() {
           className="mt-14 grid md:grid-cols-[1fr_auto] gap-10 items-end"
         >
           <p className="text-lg md:text-xl text-foreground/65 max-w-[58ch] leading-relaxed text-pretty">
-            Skillnex is the operating system for the post-degree generation. We train marketers,
-            creators, and operators with real briefs, working advisors, and an AI career engine that
-            tells you exactly what to do next.
+            Skillnex starts with skill-focused career counselling — helping you choose the right path early so you don't waste time or stay confused. Then you move into real execution through projects and mentorship, building practical skills that actually move your career forward.
           </p>
           <div className="flex flex-wrap gap-3">
             <MagneticButton asChild>
@@ -205,13 +206,10 @@ function Hero() {
 function Ticker() {
   const items = [
     "Performance Marketing",
-    "Brand Strategy",
-    "Video Storytelling",
-    "AI for Creators",
-    "Product Design",
-    "Growth Engineering",
-    "Content Systems",
-    "Studio Workflows",
+    "Video Production",
+    "Branding",
+    "UI/UX",
+    "Engineering Program",
   ];
   return (
     <div className="py-6 border-y border-foreground/10 bg-card/40">
@@ -226,145 +224,223 @@ function Ticker() {
   );
 }
 
-/* ─── DEGREES VS SKILLS ─────────────────────────────── */
+/* ─── BUILD SKILLS THROUGH EXECUTION ────────────────── */
 function DegreesVsSkills() {
-  const old = [
-    "Four years, zero portfolio",
-    "Theory written before the internet",
-    "Recruiters skip your resume",
-    "You graduate, then you start learning",
+  const courses = [
+    {
+      title: "Social Media Management",
+      description: "Strategy, calendars, content and community — run brand pages that actually grow.",
+      category: "Operator",
+    },
+    {
+      title: "Video Editing (Basic to Advance)",
+      description: "Cut, color and score films that hold the scroll — Premiere, DaVinci, sound and finishing.",
+      category: "Studio",
+    },
+    {
+      title: "Graphic Designing and UI/UX",
+      description: "Identity, type, layout and design systems for the modern internet.",
+      category: "Design",
+    },
+    {
+      title: "Performance Marketing",
+      description: "Meta, Google, creative testing and attribution — paid acquisition end-to-end.",
+      category: "Flagship",
+    },
+    {
+      title: "Full Stack Development",
+      description: "Build responsive, scalable applications from database to deployment.",
+      category: "Engineering",
+    },
+    {
+      title: "Soft Skill Learning",
+      description: "Communication, leadership and professional skills that make you stand out.",
+      category: "Foundation",
+    },
   ];
-  const skillnex = [
-    "Ship a portfolio in 90 days",
-    "Briefs from working operators",
-    "AI engine that aims your trajectory",
-    "You graduate already hired",
-  ];
+  
   return (
-    <SectionShell index="02" kicker="The shift" title={<>Degrees Are <span className="italic text-foreground/55">No Longer Enough.</span></>}>
-      <div className="grid md:grid-cols-2 gap-5">
-        <ScrollReveal>
-          <div className="relative rounded-sm border border-foreground/10 bg-card p-8 md:p-10 h-full overflow-hidden">
-            <div className="absolute -top-10 -right-10 size-40 rounded-full bg-foreground/[0.03] blur-2xl" />
-            <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/40 mb-6">The old operating system</p>
-            <h3 className="font-serif text-3xl md:text-4xl mb-8">Inefficient · Outdated</h3>
-            <ul className="space-y-4">
-              {old.map((t) => (
-                <li key={t} className="flex gap-3 items-start text-foreground/70">
-                  <X className="size-4 mt-1 text-foreground/40 shrink-0" />
-                  <span className="leading-relaxed">{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </ScrollReveal>
-        <ScrollReveal delay={0.1}>
-          <div className="relative rounded-sm border border-foreground/15 bg-gradient-to-br from-card via-card to-foreground/[0.04] p-8 md:p-10 h-full overflow-hidden">
-            <motion.div
-              className="absolute -top-20 -right-20 size-60 rounded-full bg-foreground/[0.06] blur-3xl"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/50 mb-6">
-              The Skillnex operating system
-            </p>
-            <h3 className="font-serif text-3xl md:text-4xl mb-8">
-              Designed for the <span className="italic">work that exists.</span>
-            </h3>
-            <ul className="space-y-4">
-              {skillnex.map((t) => (
-                <li key={t} className="flex gap-3 items-start">
-                  <Check className="size-4 mt-1 text-foreground shrink-0" />
-                  <span className="leading-relaxed">{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </ScrollReveal>
+    <SectionShell 
+      index="02" 
+      kicker="Learn by doing" 
+      title={<>Build Skills Through <span className="italic text-foreground/55">Execution.</span></>}
+    >
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {courses.map((course, i) => (
+          <ScrollReveal key={course.title} delay={i * 0.05}>
+            <div className="relative rounded-sm border border-foreground/10 bg-card p-6 md:p-8 h-full flex flex-col overflow-hidden group hover:border-foreground/20 transition-colors">
+              <div className="absolute -top-10 -right-10 size-32 rounded-full bg-foreground/[0.03] blur-2xl group-hover:bg-foreground/[0.06] transition-colors" />
+              
+              <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/40 mb-4">
+                {course.category}
+              </p>
+              
+              <h3 className="font-serif text-2xl md:text-3xl mb-3 relative z-10">
+                {course.title}
+              </h3>
+              
+              <p className="text-sm text-foreground/60 leading-relaxed mb-6 flex-1 relative z-10">
+                {course.description}
+              </p>
+              
+              <Link 
+                to="/programs"
+                className="inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-foreground group/link relative z-10"
+              >
+                <span className="border-b border-foreground/40 group-hover/link:border-foreground pb-0.5">
+                  Explore
+                </span>
+                <ArrowRight className="size-4 group-hover/link:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </ScrollReveal>
+        ))}
       </div>
     </SectionShell>
   );
 }
 
+
 /* ─── ECOSYSTEM RING ───────────────────────────────── */
 function Ecosystem() {
-  const nodes = [
-    { label: "Programs", icon: GraduationCap },
-    { label: "AI Engine", icon: Brain },
-    { label: "Advisors", icon: Users },
-    { label: "Studio", icon: Palette },
-    { label: "Portfolio", icon: Briefcase },
-    { label: "Hiring", icon: Rocket },
+  // Outer ring nodes
+  const outerNodes = [
+    { label: "Programs", radius: 47, duration: 38, direction: 1 },
+    { label: "Hiring", radius: 48, duration: 40, direction: -1 },
+    { label: "AI Engine", radius: 46, duration: 42, direction: 1 },
   ];
+  
+  // Inner ring nodes
+  const innerNodes = [
+    { label: "Skill Counselling" },
+    { label: "Practical Learning" },
+    { label: "Practice" },
+    { label: "Real Project" },
+    { label: "Execution" },
+    { label: "Mentorship" },
+  ];
+  
   return (
-    <SectionShell index="03" kicker="The architecture" title={<>Unified <span className="italic text-foreground/55">Learning Ecosystem.</span></>}>
-      <div className="relative mx-auto aspect-square w-full max-w-[560px]">
+    <SectionShell 
+      index="03" 
+      kicker="The Architecture" 
+      title={<>Unified Learning <span className="italic text-foreground/55">Ecosystem.</span></>}
+      subtitle="One Ecosystem. All Your Growth."
+    >
+      <div className="relative mx-auto aspect-square w-full max-w-[700px] bg-black/95 rounded-2xl p-12">
         {/* rings */}
-        {[0.4, 0.7, 1].map((s, i) => (
+        {[0.3, 0.5, 0.75, 1].map((s, i) => (
           <motion.div
             key={i}
-            className="absolute inset-0 m-auto rounded-full border border-foreground/10"
+            className="absolute inset-0 m-auto rounded-full border border-white/5"
             style={{ width: `${s * 100}%`, height: `${s * 100}%` }}
             animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
-            transition={{ duration: 40 + i * 20, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 50 + i * 20, repeat: Infinity, ease: "linear" }}
           />
         ))}
-        {/* center */}
+        
+        {/* center with glow */}
         <motion.div
-          animate={{ y: [0, -14, 0, -8, 0], scale: [1, 1.04, 1, 1.02, 1] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-0 m-auto size-32 rounded-full bg-foreground text-background flex flex-col items-center justify-center shadow-2xl"
+          animate={{ y: [0, -10, 0], scale: [1, 1.02, 1] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 m-auto size-40 rounded-full bg-white flex flex-col items-center justify-center shadow-[0_0_80px_40px_rgba(255,255,255,0.15)]"
         >
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          >
-            <Sparkles className="size-5 mb-1" />
-          </motion.div>
-          <span className="font-serif text-xl">Skillnex</span>
-          <span className="text-[10px] uppercase tracking-[0.3em] opacity-60 mt-0.5">Core</span>
+          <span className="font-serif text-3xl text-black">Skillnex</span>
+          <span className="text-[11px] uppercase tracking-[0.3em] text-black/60 mt-1">Core</span>
         </motion.div>
-        {/* orbiting nodes — wrapper rotates, inner counter-rotates */}
-        <motion.div
-          className="absolute inset-0"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        >
-        {nodes.map((n, i) => {
-          const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
-          const r = 45;
-          const x = 50 + Math.cos(angle) * r;
-          const y = 50 + Math.sin(angle) * r;
-          const Icon = n.icon;
+        
+        {/* Inner ring orbiting nodes */}
+        {innerNodes.map((n, i) => {
+          const angle = (i / innerNodes.length) * Math.PI * 2 - Math.PI / 2;
+          const radius = 32; // closer to center
           return (
             <motion.div
-              key={n.label}
-              className="absolute -translate-x-1/2 -translate-y-1/2"
-              style={{ left: `${x}%`, top: `${y}%` }}
+              key={n.label + '-inner'}
+              className="absolute inset-0 m-auto"
+              style={{ width: '100%', height: '100%' }}
+              animate={{ rotate: -360 }}
+              transition={{ 
+                duration: 30, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
             >
               <motion.div
-                animate={{ rotate: -360, y: [0, -6, 0] }}
+                className="absolute -translate-x-1/2 -translate-y-1/2"
+                style={{ 
+                  left: `${50 + Math.cos(angle) * radius}%`, 
+                  top: `${50 + Math.sin(angle) * radius}%` 
+                }}
+                animate={{ 
+                  rotate: 360,
+                  y: [0, -5, 0],
+                }}
                 transition={{
                   rotate: { duration: 30, repeat: Infinity, ease: "linear" },
-                  y: { duration: 2.4 + i * 0.2, repeat: Infinity, ease: "easeInOut" },
+                  y: { duration: 2 + i * 0.2, repeat: Infinity, ease: "easeInOut" }
                 }}
-                className="flex flex-col items-center gap-2"
               >
-                <div className="size-14 rounded-full bg-card border border-foreground/15 flex items-center justify-center shadow-md">
-                  <Icon className="size-5 text-foreground/80" />
+                <div className="px-4 py-2 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 shadow-lg">
+                  <span className="text-xs font-medium text-white whitespace-nowrap">
+                    {n.label}
+                  </span>
                 </div>
-                <span className="text-[10px] uppercase tracking-[0.25em] text-foreground/60 whitespace-nowrap">
-                  {n.label}
-                </span>
               </motion.div>
             </motion.div>
           );
         })}
-        </motion.div>
+        
+        {/* Outer ring orbiting nodes */}
+        {outerNodes.map((n, i) => {
+          const startAngle = (i / outerNodes.length) * Math.PI * 2;
+          return (
+            <motion.div
+              key={n.label}
+              className="absolute inset-0 m-auto"
+              style={{ width: '100%', height: '100%' }}
+              animate={{ rotate: n.direction * 360 }}
+              transition={{ 
+                duration: n.duration, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+            >
+              <motion.div
+                className="absolute -translate-x-1/2 -translate-y-1/2"
+                style={{ 
+                  left: `${50 + Math.cos(startAngle) * n.radius}%`, 
+                  top: `${50 + Math.sin(startAngle) * n.radius}%` 
+                }}
+                animate={{ 
+                  rotate: n.direction * -360,
+                  y: [0, -8, 0],
+                  x: [0, Math.random() > 0.5 ? 3 : -3, 0]
+                }}
+                transition={{
+                  rotate: { duration: n.duration, repeat: Infinity, ease: "linear" },
+                  y: { duration: 2.5 + i * 0.3, repeat: Infinity, ease: "easeInOut" },
+                  x: { duration: 3 + i * 0.2, repeat: Infinity, ease: "easeInOut" }
+                }}
+              >
+                <div className="px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg">
+                  <span className="text-sm font-medium text-white whitespace-nowrap">
+                    {n.label}
+                  </span>
+                </div>
+              </motion.div>
+            </motion.div>
+          );
+        })}
+        
+        {/* small red dot accent (top left) */}
+        <motion.div 
+          className="absolute top-16 left-16 w-2 h-2 bg-red-500 rounded-full"
+          animate={{ scale: [1, 1.3, 1], opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        />
       </div>
       <p className="text-center max-w-xl mx-auto mt-12 text-foreground/60 leading-relaxed">
-        Every part of Skillnex feeds the next. Learn a discipline, ship a brief, get matched, get
-        hired — one continuous loop.
+        Skillnex is one continuous loop — learn, execute, get matched, get hired, and grow.
       </p>
     </SectionShell>
   );
@@ -414,7 +490,12 @@ function CareerTracks() {
   const track = TRACKS[active];
   const Icon = track.icon;
   return (
-    <SectionShell index="04" kicker="The map" title={<>Discover Your <span className="italic text-foreground/55">Career Track.</span></>}>
+    <SectionShell 
+      index="04" 
+      kicker="For colleges" 
+      title={<>Campus-Ready <span className="italic text-foreground/55">Career Tracks.</span></>}
+      subtitle="Tracks Skillnex delivers on campus to build industry-ready talent."
+    >
       <div className="grid md:grid-cols-[260px_1fr] gap-6">
         <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible -mx-6 px-6 md:m-0 md:p-0">
           {TRACKS.map((t, i) => (
@@ -493,6 +574,102 @@ function CareerTracks() {
   );
 }
 
+/* ─── MAKE YOUR CAMPUS SKILL-FOCUSED ───────────── */
+function MakeCampusSkillFocused() {
+  const steps = [
+    {
+      number: "01",
+      title: "Skill-Focused Counselling",
+      subtitle: "Clarity before action",
+      description: "Students identify the right skill path based on strengths, interests, and market demand, removing confusion early.",
+    },
+    {
+      number: "02",
+      title: "Structured Learning",
+      subtitle: "Learn what actually matters",
+      description: "Focused, practical training designed around real industry needs, not outdated theory.",
+    },
+    {
+      number: "03",
+      title: "Real-World Execution",
+      subtitle: "Learn by doing",
+      description: "Students work on live briefs, projects, and simulations to build actual experience and confidence.",
+    },
+    {
+      number: "04",
+      title: "Mentorship to Opportunities",
+      subtitle: "From skills to outcomes",
+      description: "Guidance from industry experts plus pathways to internships, freelance work, or placements.",
+    },
+  ];
+
+  return (
+    <SectionShell 
+      index="05" 
+      kicker="For institutions" 
+      title={<>Make Your Campus <span className="italic text-foreground/55">Skill-Focused.</span></>}
+      subtitle="Equip your students with practical skills that make them job-ready from day one."
+    >
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {steps.map((step, i) => (
+          <ScrollReveal key={step.number} delay={i * 0.08}>
+            <div className="relative rounded-sm border border-foreground/10 bg-card p-6 md:p-8 h-full overflow-hidden group hover:border-foreground/20 transition-colors">
+              <div className="absolute -top-10 -right-10 size-32 rounded-full bg-foreground/[0.03] blur-2xl group-hover:bg-foreground/[0.06] transition-colors" />
+              
+              <span className="font-serif text-5xl md:text-6xl text-foreground/10 relative z-10">
+                {step.number}
+              </span>
+              
+              <div className="mt-6 relative z-10">
+                <h3 className="font-serif text-xl md:text-2xl mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-neon font-medium mb-3 italic">
+                  {step.subtitle}
+                </p>
+                <p className="text-sm text-foreground/60 leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </SectionShell>
+  );
+}
+
+/* ─── WORKSHOP/COLLEGE ADD-ON ──────────────────── */
+function WorkshopAddOn() {
+  const features = [
+    { label: "Workshop Support", icon: Users },
+    { label: "Skillnex Tie-Up", icon: Briefcase },
+    { label: "Webinar Hosting", icon: Video },
+  ];
+
+  return (
+    <div className="py-16 px-6">
+      <div className="max-w-[1400px] mx-auto">
+        <div className="grid sm:grid-cols-3 gap-4">
+          {features.map((feature, i) => {
+            const Icon = feature.icon;
+            return (
+              <ScrollReveal key={feature.label} delay={i * 0.1}>
+                <div className="flex items-center gap-4 rounded-sm border border-foreground/10 bg-card px-6 py-5 hover:border-foreground/20 transition-colors">
+                  <div className="size-10 rounded-sm bg-neon-soft border border-neon/40 flex items-center justify-center shrink-0">
+                    <Icon className="size-5 text-neon" />
+                  </div>
+                  <span className="font-medium">{feature.label}</span>
+                </div>
+              </ScrollReveal>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── PREMIUM PROGRAMS — horizontal scroll ──────── */
 function PremiumPrograms(_props: {
   courses: Array<{
@@ -563,7 +740,7 @@ function PremiumPrograms(_props: {
   const sectionHeight = `calc(100vh + ${distance}px)`;
 
   return (
-    <section ref={ref} className="relative" style={{ height: sectionHeight }}>
+    <section ref={ref} className="relative overflow-hidden" style={{ height: sectionHeight }}>
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
         <div className="px-6 pt-24 pb-10">
           <div className="max-w-[1400px] mx-auto flex items-end justify-between flex-wrap gap-6">
@@ -582,7 +759,7 @@ function PremiumPrograms(_props: {
           </div>
         </div>
 
-        <div className="flex-1 flex items-center">
+        <div className="flex-1 flex items-center overflow-hidden">
           <motion.div
             ref={trackRef}
             style={{ x }}
@@ -644,6 +821,83 @@ function ProgramCard({
   );
 }
 
+/* ─── CORPORATE OFFERING ────────────────────────── */
+function CorporateOffering() {
+  const offerings = [
+    {
+      number: "01",
+      title: "Skill Gap Assessment",
+      subtitle: "Identify what's missing",
+      description: "Analyze team capabilities to pinpoint exact skill gaps aligned with business goals.",
+      icon: Target,
+    },
+    {
+      number: "02",
+      title: "Customized Training Plan",
+      subtitle: "Built for your team",
+      description: "Design role-specific training programs focused on practical, high-impact skills.",
+      icon: Briefcase,
+    },
+    {
+      number: "03",
+      title: "Hands-On Execution",
+      subtitle: "Train through real work",
+      description: "Teams learn by solving real business challenges, not just attending sessions.",
+      icon: Rocket,
+    },
+    {
+      number: "04",
+      title: "Performance & Growth Tracking",
+      subtitle: "Measure what matters",
+      description: "Track improvement, productivity, and outcomes to ensure real ROI from training.",
+      icon: LineChart,
+    },
+  ];
+
+  return (
+    <SectionShell 
+      index="06" 
+      kicker="For companies" 
+      title={<>Build High-Performing <span className="italic text-foreground/55">Teams.</span></>}
+      subtitle="Build, train, and manage your in-house marketing team so you stay in control while we ensure performance."
+    >
+      <div className="grid sm:grid-cols-2 gap-5">
+        {offerings.map((item, i) => {
+          const Icon = item.icon;
+          return (
+            <ScrollReveal key={item.number} delay={i * 0.08}>
+              <div className="relative rounded-sm border border-foreground/10 bg-card p-8 h-full overflow-hidden group hover:border-foreground/20 transition-colors">
+                <div className="absolute -top-10 -right-10 size-40 rounded-full bg-foreground/[0.03] blur-2xl group-hover:bg-foreground/[0.06] transition-colors" />
+                
+                <div className="flex items-start justify-between mb-6">
+                  <span className="font-serif text-4xl text-foreground/10 relative z-10">
+                    {item.number}
+                  </span>
+                  <div className="size-10 rounded-sm bg-neon-soft border border-neon/40 flex items-center justify-center">
+                    <Icon className="size-5 text-neon" />
+                  </div>
+                </div>
+                
+                <div className="relative z-10">
+                  <h3 className="font-serif text-2xl md:text-3xl mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-neon font-medium mb-3 italic">
+                    {item.subtitle}
+                  </p>
+                  <p className="text-sm text-foreground/60 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
+          );
+        })}
+      </div>
+    </SectionShell>
+  );
+}
+
 /* ─── OUTCOMES OVER PROMISES ────────────────────── */
 function OutcomesOverPromises() {
   const cards = [
@@ -664,7 +918,7 @@ function OutcomesOverPromises() {
     },
   ];
   return (
-    <SectionShell index="06" kicker="The contract" title={<>Outcomes <span className="italic text-foreground/55">Over Promises.</span></>}>
+    <SectionShell index="07" kicker="The contract" title={<>Outcomes <span className="italic text-foreground/55">Over Promises.</span></>}>
       <div className="grid md:grid-cols-3 gap-5">
         {cards.map((c, i) => (
           <ScrollReveal key={c.tag} delay={i * 0.1}>
@@ -683,21 +937,29 @@ function OutcomesOverPromises() {
   );
 }
 
-/* ─── STUDENT WORK ───────────────────────────────── */
+/* ─── PROOF THROUGH EXECUTION ───────────────────────────────── */
 function StudentWork() {
   const tiles = [
-    { tag: "Brand film", icon: Play, by: "Aarav · Cohort 03" },
-    { tag: "Growth dashboard", icon: LineChart, by: "Mira · Cohort 02" },
-    { tag: "Identity system", icon: Palette, by: "Kabir · Cohort 03" },
+    { tag: "Brand film", icon: Play, by: "Student · Marketing Cohort" },
+    { tag: "Growth dashboard", icon: LineChart, by: "Student · Performance Track" },
+    { tag: "Identity system", icon: Palette, by: "Student · Design Program" },
+    { tag: "Web application", icon: Code2, by: "Student · Engineering Track" },
+    { tag: "Social campaign", icon: Megaphone, by: "Student · Social Media Mgmt" },
+    { tag: "Video edit", icon: Video, by: "Student · Video Production" },
   ];
   return (
-    <SectionShell index="07" kicker="The proof" title={<>Student Work & <span className="italic text-foreground/55">Client Previews.</span></>}>
+    <SectionShell 
+      index="08" 
+      kicker="Real work" 
+      title={<>Proof Through <span className="italic text-foreground/55">Execution.</span></>}
+      subtitle="Built through real projects, real work, and real growth."
+    >
       <div className="grid md:grid-cols-3 gap-5">
         {tiles.map((t, i) => {
           const Icon = t.icon;
           return (
             <ScrollReveal key={t.tag} delay={i * 0.1}>
-              <div className="group relative aspect-[4/3] rounded-sm border border-foreground/10 bg-card overflow-hidden">
+              <div className="group relative aspect-[4/3] rounded-sm border border-foreground/10 bg-card overflow-hidden hover:border-foreground/20 transition-colors">
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-br from-foreground/[0.06] via-transparent to-foreground/[0.1]"
                   whileHover={{ opacity: 1 }}
@@ -758,7 +1020,7 @@ function NumbersStrip() {
   ];
   return (
     <SectionShell
-      index="08"
+      index="09"
       kicker="The receipts"
       title={<>The Numbers Behind <span className="italic text-foreground/55">Skillnex.</span></>}
     >
@@ -782,134 +1044,99 @@ function NumbersStrip() {
   );
 }
 
-/* ─── ADVISORS ──────────────────────────────────── */
+/* ─── MEET THE FOUNDER ──────────────────────────────── */
 function Advisors() {
-  const advisors = [
-    { name: "Riya Mehta", role: "Head of Growth · D2C unicorn", initials: "RM" },
-    { name: "Aditya Rao", role: "Creative Director · Studio Ten", initials: "AR" },
-    { name: "Sana Iqbal", role: "Performance Lead · Fintech", initials: "SI" },
-    { name: "Vikram Shah", role: "Founder · Modern brand co.", initials: "VS" },
-  ];
   return (
-    <SectionShell index="09" kicker="The faculty" title={<>Led by <span className="italic text-foreground/55">Working Advisors.</span></>}>
-      <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
-        {advisors.map((a, i) => (
-          <ScrollReveal key={a.name} delay={i * 0.08}>
-            <div className="group rounded-sm border border-foreground/10 bg-card p-6 h-full">
-              <div className="size-20 rounded-full bg-foreground/10 border border-foreground/15 flex items-center justify-center font-serif text-2xl mb-6 group-hover:bg-foreground/15 transition-colors">
-                {a.initials}
+    <SectionShell 
+      index="10" 
+      kicker="The founder" 
+      title={<>Meet the <span className="italic text-foreground/55">Founder.</span></>}
+    >
+      <div className="max-w-4xl mx-auto">
+        <ScrollReveal>
+          <div className="relative rounded-sm border border-foreground/10 bg-card p-8 md:p-12 overflow-hidden">
+            <div className="absolute -top-20 -right-20 size-72 rounded-full bg-foreground/[0.05] blur-3xl" />
+            
+            <div className="relative z-10">
+              <div className="size-24 rounded-full bg-foreground/10 border border-foreground/15 flex items-center justify-center font-serif text-3xl mb-8">
+                SK
               </div>
-              <p className="font-serif text-xl leading-tight">{a.name}</p>
-              <p className="text-sm text-foreground/55 mt-1">{a.role}</p>
-              <div className="mt-6 flex items-center gap-1 text-foreground/40">
-                {Array.from({ length: 5 }).map((_, k) => (
-                  <Star key={k} className="size-3 fill-current" />
-                ))}
+              
+              <p className="text-lg md:text-xl text-foreground/75 leading-relaxed max-w-3xl">
+                I'm the founder of Skillnex, focused on bridging the gap between learning and real-world execution. I help students find their niche, build the right skills, and grow through real work and mentorship so they move forward with clarity, not confusion.
+              </p>
+              
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 text-sm border-b border-foreground/40 hover:border-foreground pb-0.5 text-foreground/80 hover:text-foreground transition-colors"
+                >
+                  <span>Read full story</span>
+                  <ArrowRight className="size-4" />
+                </Link>
               </div>
             </div>
-          </ScrollReveal>
-        ))}
+          </div>
+        </ScrollReveal>
       </div>
     </SectionShell>
   );
 }
 
-/* ─── AI CAREER ASSESSMENT ───────────────────────── */
+/* ─── TALK TO A SKILL COUNSELLOR ───────────────────────── */
 function CareerAssessment() {
-  const [step, setStep] = useState(0);
-  const questions = [
-    {
-      q: "Where do you want to work?",
-      options: ["Agency", "In-house brand", "Startup", "Freelance"],
-    },
-    {
-      q: "Your strongest instinct?",
-      options: ["Storytelling", "Numbers", "Design", "Systems"],
-    },
-    {
-      q: "How fast do you want to ship?",
-      options: ["8 weeks", "12 weeks", "6 months", "I'll pace myself"],
-    },
-  ];
-
-  const terminal = [
-    "> analyzing inputs ...",
-    "> matching against 12,000 hiring signals",
-    "> recommended track: Performance Marketing",
-    "> est. portfolio in: 9 weeks",
-    "> top employer matches: 14",
-    "> confidence: 92%",
+  const benefits = [
+    "Clear direction on what skills to focus on",
+    "Identify your niche based on strengths and demand",
+    "Save time by avoiding random learning",
+    "Get a structured path toward real execution",
   ];
 
   return (
-    <SectionShell index="10" kicker="The engine" title={<>AI <span className="italic text-foreground/55">Career Assessment.</span></>}>
-      <div className="grid md:grid-cols-2 gap-5">
-        <div className="rounded-sm border border-foreground/10 bg-card p-8">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/50 mb-2">
-            Step {step + 1} / {questions.length}
-          </p>
-          <h3 className="font-serif text-2xl md:text-3xl leading-snug mb-8">
-            {questions[step].q}
-          </h3>
-          <div className="space-y-2 mb-8">
-            {questions[step].options.map((o) => (
-              <button
-                key={o}
-                onClick={() => setStep((s) => Math.min(s + 1, questions.length - 1))}
-                className="w-full text-left px-4 py-3 rounded-sm border border-foreground/10 hover:border-foreground/40 hover:bg-foreground/[0.04] transition-all text-foreground/80 hover:text-foreground"
-              >
-                {o}
-              </button>
-            ))}
-          </div>
-          <div className="flex items-center justify-between text-xs">
-            <button
-              onClick={() => setStep((s) => Math.max(0, s - 1))}
-              className="text-foreground/50 hover:text-foreground"
-            >
-              ← back
-            </button>
-            <div className="flex gap-1">
-              {questions.map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-px w-8 ${i <= step ? "bg-foreground" : "bg-foreground/15"}`}
-                />
-              ))}
+    <SectionShell 
+      index="11" 
+      kicker="Get guidance" 
+      title={<>Talk to a Skill <span className="italic text-foreground/55">Counsellor.</span></>}
+      subtitle="Free skill counselling to find your niche and next steps."
+    >
+      <div className="max-w-4xl mx-auto">
+        <ScrollReveal>
+          <div className="relative rounded-sm border border-foreground/10 bg-card p-8 md:p-12 overflow-hidden">
+            <div className="absolute -top-20 -right-20 size-72 rounded-full bg-foreground/[0.05] blur-3xl" />
+            
+            <div className="relative z-10 grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="font-serif text-3xl md:text-4xl mb-6">
+                  Start with <span className="italic text-foreground/60">clarity.</span>
+                </h3>
+                <p className="text-foreground/70 leading-relaxed mb-8">
+                  Book a free 1-on-1 session with our skill counsellors to understand where you are, where you want to go, and the exact path to get there.
+                </p>
+                <MagneticButton asChild>
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center gap-3 bg-foreground text-background px-6 py-4 rounded-sm text-sm hover:bg-foreground/90 transition-colors"
+                  >
+                    <span>Book free session</span>
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </MagneticButton>
+              </div>
+              
+              <div className="space-y-4">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/50 mb-4">
+                  What you'll get
+                </p>
+                {benefits.map((benefit, i) => (
+                  <div key={i} className="flex gap-3 items-start">
+                    <Check className="size-5 mt-0.5 text-neon shrink-0" />
+                    <span className="text-foreground/75 leading-relaxed">{benefit}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="rounded-sm border border-foreground/10 bg-ink-deep bg-card overflow-hidden">
-          <div className="flex items-center gap-2 px-5 py-3 border-b border-foreground/10">
-            <span className="size-2 rounded-full bg-foreground/30" />
-            <span className="size-2 rounded-full bg-foreground/30" />
-            <span className="size-2 rounded-full bg-foreground/30" />
-            <span className="ml-3 text-xs text-foreground/50 flex items-center gap-2">
-              <Terminal className="size-3" />
-              skillnex@career-engine
-            </span>
-          </div>
-          <div className="p-6 font-mono text-sm space-y-2 min-h-[260px]">
-            {terminal.map((line, i) => (
-              <motion.p
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.3 }}
-                transition={{ delay: i * 0.18 }}
-                className={i >= terminal.length - 3 ? "text-foreground" : "text-foreground/60"}
-              >
-                {line}
-              </motion.p>
-            ))}
-            <motion.span
-              animate={{ opacity: [1, 0, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-              className="inline-block w-2 h-4 bg-foreground align-middle"
-            />
-          </div>
-        </div>
+        </ScrollReveal>
       </div>
     </SectionShell>
   );
@@ -948,38 +1175,123 @@ function RoadmapToHire() {
   );
 }
 
-/* ─── ALUMNI GUILD ──────────────────────────────── */
+/* ─── TESTIMONIALS ──────────────────────────────── */
 function AlumniGuild() {
+  const companyReviews = [
+    { name: "Rajesh Kumar", role: "CEO, Tech Startup", quote: "Skillnex helped us build a high-performing marketing team from scratch. Their training is practical and focused on real outcomes." },
+    { name: "Priya Sharma", role: "Marketing Director, E-commerce", quote: "The customized training plan was exactly what our team needed. We saw immediate improvements in campaign performance." },
+  ];
+
+  const internReviews = [
+    { name: "Aarav Patel", role: "Performance Marketing Intern", quote: "Skillnex gave me real project experience that made me stand out in interviews. I got hired within 2 months of completing the program." },
+    { name: "Meera Singh", role: "Video Editing Student", quote: "The mentorship and hands-on projects helped me build a portfolio I'm proud of. Best investment in my career." },
+    { name: "Kabir Desai", role: "UI/UX Designer", quote: "From confusion to clarity — Skillnex's counselling helped me find my niche, and their program gave me the skills to land my first role." },
+  ];
+
+  const collegeReviews = [
+    { name: "Dr. Anjali Mehta", role: "HOD, Commerce College", quote: "Our students are now industry-ready thanks to Skillnex's practical approach. The partnership has been transformative for our placement rates." },
+    { name: "Prof. Vikram Rao", role: "Dean, Engineering College", quote: "Skillnex bridges the gap between academic learning and industry needs. Their focus on execution over theory is exactly what education needs today." },
+  ];
+
   return (
     <section className="px-6 py-24">
-      <ScrollReveal>
-        <div className="relative max-w-[1000px] mx-auto rounded-sm border border-foreground/15 bg-card p-10 md:p-16 text-center overflow-hidden">
-          <motion.div
-            className="absolute -top-24 -left-24 size-80 rounded-full bg-foreground/[0.06] blur-3xl"
-            animate={{ x: [0, 30, 0], y: [0, 20, 0] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <p className="text-[10px] uppercase tracking-[0.35em] text-foreground/50 mb-6">
-            Lifelong access
-          </p>
-          <h3 className="font-serif text-4xl md:text-6xl leading-[1.02]">
-            Skillnex <span className="italic text-foreground/60">Alumni Guild.</span>
-          </h3>
-          <p className="mt-6 text-foreground/65 max-w-xl mx-auto leading-relaxed">
-            Once a Skillnex student, always inside. Curated job openings, advisor office hours,
-            quarterly studio meets, and a private network of operators.
-          </p>
-          <MagneticButton asChild>
-            <Link
-              to="/signup"
-              className="mt-10 inline-flex items-center gap-3 bg-foreground text-background px-6 py-4 rounded-sm text-sm hover:bg-foreground/90 transition-colors"
-            >
-              <span>Join the guild</span>
-              <ArrowRight className="size-4" />
-            </Link>
-          </MagneticButton>
+      <div className="max-w-[1400px] mx-auto grid lg:grid-cols-[1fr_1.5fr] gap-12">
+        {/* Left: Static heading */}
+        <ScrollReveal>
+          <div className="lg:sticky lg:top-24 lg:self-start">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-foreground/50 mb-6">
+              Trusted by all
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl leading-[1.05] mb-6">
+              Real Stories, Real <span className="italic text-foreground/60">Outcomes.</span>
+            </h2>
+            <p className="text-foreground/65 leading-relaxed max-w-md">
+              Skillnex is a skill-focused ecosystem that turns learning into real-world execution. It helps students build skills, colleges create industry-ready talent, and companies build strong in-house teams — all through one connected system focused on real outcomes.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        {/* Right: Categorized reviews */}
+        <div className="space-y-12">
+          {/* Company Owner Reviews */}
+          <div>
+            <ScrollReveal>
+              <h3 className="font-serif text-2xl mb-2">Company Owner Reviews</h3>
+              <p className="text-sm text-foreground/60 mb-6">Feedback from business owners who built and scaled their teams with Skillnex.</p>
+            </ScrollReveal>
+            <div className="space-y-4">
+              {companyReviews.map((review, i) => (
+                <ScrollReveal key={i} delay={i * 0.1}>
+                  <div className="rounded-sm border border-foreground/10 bg-card p-6">
+                    <p className="text-foreground/75 leading-relaxed mb-4 italic">"{review.quote}"</p>
+                    <div className="flex items-center gap-3">
+                      <div className="size-10 rounded-full bg-foreground/10 border border-foreground/15 flex items-center justify-center font-serif text-sm">
+                        {review.name.split(' ').map(n => n[0]).join('')}
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{review.name}</p>
+                        <p className="text-xs text-foreground/60">{review.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+
+          {/* Interns Reviews */}
+          <div>
+            <ScrollReveal>
+              <h3 className="font-serif text-2xl mb-2">Interns Reviews</h3>
+              <p className="text-sm text-foreground/60 mb-6">Experiences from students who learned, executed, and grew through real work.</p>
+            </ScrollReveal>
+            <div className="space-y-4">
+              {internReviews.map((review, i) => (
+                <ScrollReveal key={i} delay={i * 0.1}>
+                  <div className="rounded-sm border border-foreground/10 bg-card p-6">
+                    <p className="text-foreground/75 leading-relaxed mb-4 italic">"{review.quote}"</p>
+                    <div className="flex items-center gap-3">
+                      <div className="size-10 rounded-full bg-foreground/10 border border-foreground/15 flex items-center justify-center font-serif text-sm">
+                        {review.name.split(' ').map(n => n[0]).join('')}
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{review.name}</p>
+                        <p className="text-xs text-foreground/60">{review.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+
+          {/* College Reviews */}
+          <div>
+            <ScrollReveal>
+              <h3 className="font-serif text-2xl mb-2">College Reviews</h3>
+              <p className="text-sm text-foreground/60 mb-6">Insights from institutions that partnered to build skill-focused student ecosystems.</p>
+            </ScrollReveal>
+            <div className="space-y-4">
+              {collegeReviews.map((review, i) => (
+                <ScrollReveal key={i} delay={i * 0.1}>
+                  <div className="rounded-sm border border-foreground/10 bg-card p-6">
+                    <p className="text-foreground/75 leading-relaxed mb-4 italic">"{review.quote}"</p>
+                    <div className="flex items-center gap-3">
+                      <div className="size-10 rounded-full bg-foreground/10 border border-foreground/15 flex items-center justify-center font-serif text-sm">
+                        {review.name.split(' ').map(n => n[0]).join('')}
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{review.name}</p>
+                        <p className="text-xs text-foreground/60">{review.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
         </div>
-      </ScrollReveal>
+      </div>
     </section>
   );
 }
@@ -1075,11 +1387,13 @@ function SectionShell({
   index,
   kicker,
   title,
+  subtitle,
   children,
 }: {
   index: string;
   kicker: string;
   title: React.ReactNode;
+  subtitle?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -1093,6 +1407,9 @@ function SectionShell({
             </span>
           </div>
           <h2 className="font-serif text-4xl md:text-6xl leading-[0.98] max-w-[20ch]">{title}</h2>
+          {subtitle && (
+            <p className="text-lg text-foreground/65 mt-4 max-w-[60ch]">{subtitle}</p>
+          )}
         </ScrollReveal>
         {children}
       </div>
