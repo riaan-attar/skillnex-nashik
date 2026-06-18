@@ -71,6 +71,25 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { data } = useSuspenseQuery(coursesQuery);
   const courses = data.courses;
+  const [showScroll, setShowScroll] = useState(false);
+
+  useEffect(() => {
+    const checkScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScroll(true);
+      } else {
+        setShowScroll(false);
+      }
+    };
+
+    window.addEventListener('scroll', checkScroll);
+    return () => window.removeEventListener('scroll', checkScroll);
+  }, []);
+
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden">
       <ScrollProgress />
@@ -79,21 +98,27 @@ function Index() {
       <Ticker />
       <DegreesVsSkills />
       <Ecosystem />
-      <CareerTracks />
       <MakeCampusSkillFocused />
-      <WorkshopAddOn />
-      <PremiumPrograms courses={courses} />
       <CorporateOffering />
-      <OutcomesOverPromises />
       <StudentWork />
-      <NumbersStrip />
       <Advisors />
       <CareerAssessment />
-      <RoadmapToHire />
       <AlumniGuild />
       <DeveloperAssets />
       <FinalCTA />
       <Footer />
+
+      {/* Scroll to Top Button */}
+      <motion.button
+        onClick={handleScrollToTop}
+        animate={{ opacity: showScroll ? 1 : 0, pointerEvents: showScroll ? 'auto' : 'none' }}
+        whileHover={{ scale: 1.1 }}
+        transition={{ duration: 0.3 }}
+        className="fixed bottom-8 right-8 z-50"
+        title="Scroll to top"
+      >
+        <ArrowRight className="size-6 text-neon rotate-[-90deg]" />
+      </motion.button>
     </div>
   );
 }
@@ -263,7 +288,7 @@ function DegreesVsSkills() {
   
   return (
     <SectionShell 
-      index="02" 
+      index="01" 
       kicker="Learn by doing" 
       title={<>Build Skills Through <span className="italic text-foreground/55">Execution.</span></>}
     >
@@ -273,7 +298,7 @@ function DegreesVsSkills() {
             <div className="relative rounded-sm border border-foreground/10 bg-card p-6 md:p-8 h-full flex flex-col overflow-hidden group hover:border-foreground/20 transition-colors">
               <div className="absolute -top-10 -right-10 size-32 rounded-full bg-foreground/[0.03] blur-2xl group-hover:bg-foreground/[0.06] transition-colors" />
               
-              <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/40 mb-4">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-neon mb-4">
                 {course.category}
               </p>
               
@@ -324,7 +349,7 @@ function Ecosystem() {
   
   return (
     <SectionShell 
-      index="03" 
+      index="02" 
       kicker="The Architecture" 
       title={<>Unified Learning <span className="italic text-foreground/55">Ecosystem.</span></>}
       subtitle="One Ecosystem. All Your Growth."
@@ -449,132 +474,6 @@ function Ecosystem() {
 }
 
 /* ─── CAREER TRACKS — tabs + horizontal scroll ──── */
-const TRACKS = [
-  {
-    name: "Performance Marketing",
-    icon: LineChart,
-    blurb: "Run paid acquisition the way operators actually do — Meta, Google, creative testing, attribution.",
-    modules: ["Meta Ads Lab", "Google Ads Engine", "Creative Testing", "Attribution Stack", "Reporting"],
-    outcome: "Run a paid creative for a real D2C brand by week 6.",
-  },
-  {
-    name: "Video Storytelling",
-    icon: Video,
-    blurb: "From short-form hooks to long-form narrative. Premiere, DaVinci, sound, and the rhythm that holds a viewer.",
-    modules: ["Shot grammar", "Edit room", "Sound design", "Color & finishing", "Distribution"],
-    outcome: "Cut a brand film with sound and color graded.",
-  },
-  {
-    name: "AI for Creators",
-    icon: Brain,
-    blurb: "Use modern AI as a co-pilot for ideation, production, and growth without sounding like a robot.",
-    modules: ["Prompt craft", "Agents", "Content pipelines", "Custom GPTs", "Ethics"],
-    outcome: "Ship a working AI workflow that saves 10 hrs/week.",
-  },
-  {
-    name: "Brand & Design",
-    icon: Palette,
-    blurb: "Identity, type, and motion for the modern internet. Build brands that survive the scroll.",
-    modules: ["Identity systems", "Type & layout", "Motion", "Web kits", "Case studies"],
-    outcome: "Design a full brand identity and present it to a panel.",
-  },
-  {
-    name: "Growth Engineering",
-    icon: Code2,
-    blurb: "No-code, scripts, automations, analytics. Be the operator who actually builds the funnel.",
-    modules: ["No-code stacks", "Automations", "SQL basics", "Tracking", "Experiment design"],
-    outcome: "Build and instrument a live growth experiment.",
-  },
-];
-
-function CareerTracks() {
-  const [active, setActive] = useState(0);
-  const track = TRACKS[active];
-  const Icon = track.icon;
-  return (
-    <SectionShell 
-      index="04" 
-      kicker="For colleges" 
-      title={<>Campus-Ready <span className="italic text-foreground/55">Career Tracks.</span></>}
-      subtitle="Tracks Skillnex delivers on campus to build industry-ready talent."
-    >
-      <div className="grid md:grid-cols-[260px_1fr] gap-6">
-        <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible -mx-6 px-6 md:m-0 md:p-0">
-          {TRACKS.map((t, i) => (
-            <button
-              key={t.name}
-              onClick={() => setActive(i)}
-              className={`group relative shrink-0 text-left px-4 py-4 rounded-sm border transition-all ${
-                active === i
-                  ? "border-neon/60 bg-card text-foreground shadow-neon"
-                  : "border-foreground/10 hover:border-foreground/25 text-foreground/60 hover:text-foreground/85"
-              }`}
-            >
-              <span className="flex items-center gap-3">
-                <span className={`font-serif italic text-xs tabular-nums ${active === i ? "text-neon" : "text-foreground/40"}`}>
-                  0{i + 1}
-                </span>
-                <span className="text-sm whitespace-nowrap md:whitespace-normal">{t.name}</span>
-              </span>
-              {active === i && (
-                <motion.span
-                  layoutId="track-pill"
-                  className="absolute left-0 top-0 bottom-0 w-[2px] bg-neon shadow-neon"
-                />
-              )}
-            </button>
-          ))}
-        </div>
-
-        <motion.div
-          key={track.name}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="relative rounded-sm border border-foreground/10 bg-card overflow-hidden"
-        >
-          <div className="absolute -top-24 -right-24 size-72 rounded-full bg-foreground/[0.05] blur-3xl" />
-          <div className="relative p-8 md:p-12">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="size-10 rounded-sm bg-neon-soft border border-neon/40 flex items-center justify-center">
-                <Icon className="size-5 text-neon" />
-              </div>
-              <span className="text-[10px] uppercase tracking-[0.3em] text-neon font-medium">
-                Track 0{active + 1}
-              </span>
-            </div>
-            <h3 className="font-serif text-4xl md:text-5xl leading-tight">{track.name}</h3>
-            <p className="mt-4 text-foreground/65 max-w-[55ch] leading-relaxed">{track.blurb}</p>
-
-            <div className="mt-10 grid sm:grid-cols-[1fr_auto] gap-8 items-end">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-neon/80 font-medium mb-4">
-                  Modules
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {track.modules.map((m) => (
-                    <span
-                      key={m}
-                      className="text-xs px-3 py-1.5 rounded-full border border-neon/40 text-foreground/85 hover:border-neon hover:text-neon transition-colors"
-                    >
-                      {m}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <div className="text-right max-w-xs">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-neon/80 font-medium mb-2">
-                  Outcome
-                </p>
-                <p className="font-serif italic text-lg leading-snug">{track.outcome}</p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </SectionShell>
-  );
-}
 
 /* ─── MAKE YOUR CAMPUS SKILL-FOCUSED ───────────── */
 function MakeCampusSkillFocused() {
@@ -607,7 +506,7 @@ function MakeCampusSkillFocused() {
 
   return (
     <SectionShell 
-      index="05" 
+      index="03" 
       kicker="For institutions" 
       title={<>Make Your Campus <span className="italic text-foreground/55">Skill-Focused.</span></>}
       subtitle="Equip your students with practical skills that make them job-ready from day one."
@@ -618,7 +517,7 @@ function MakeCampusSkillFocused() {
             <div className="relative rounded-sm border border-foreground/10 bg-card p-6 md:p-8 h-full overflow-hidden group hover:border-foreground/20 transition-colors">
               <div className="absolute -top-10 -right-10 size-32 rounded-full bg-foreground/[0.03] blur-2xl group-hover:bg-foreground/[0.06] transition-colors" />
               
-              <span className="font-serif text-5xl md:text-6xl text-foreground/10 relative z-10">
+              <span className="font-serif text-5xl md:text-6xl text-neon relative z-10">
                 {step.number}
               </span>
               
@@ -672,231 +571,6 @@ function WorkshopAddOn() {
   );
 }
 
-/* ─── PREMIUM PROGRAMS — magic bento grid ──────── */
-function PremiumPrograms(_props: {
-  courses: Array<{
-    id: string;
-    slug: string;
-    title: string;
-    subtitle: string | null;
-    description: string | null;
-    cover_image_url: string | null;
-    category: string | null;
-    price_cents: number;
-  }>;
-}) {
-  const items = [
-    {
-      title: "Video Editing",
-      subtitle: "Cut, color and score films that hold the scroll — Premiere, DaVinci, sound and finishing.",
-      tag: "Studio · 12 weeks",
-      slug: "video-editing",
-    },
-    {
-      title: "Graphic Designing",
-      subtitle: "Identity, type, layout and motion — design systems for the modern internet.",
-      tag: "Studio · 10 weeks",
-      slug: "graphic-designing",
-    },
-    {
-      title: "Performance Marketing",
-      subtitle: "Meta, Google, creative testing and attribution — paid acquisition end-to-end.",
-      tag: "Flagship · 12 weeks",
-      slug: "performance-marketing",
-    },
-    {
-      title: "Social Media Management",
-      subtitle: "Strategy, calendars, content and community — run brand pages that actually grow.",
-      tag: "Operator · 8 weeks",
-      slug: "social-media-management",
-    },
-    {
-      title: "AI In Digital Marketing",
-      subtitle: "Use modern AI as a co-pilot for ideation, production and growth pipelines.",
-      tag: "New · 8 weeks",
-      slug: "ai-in-digital-marketing",
-    },
-  ];
-
-  return (
-    <SectionShell 
-      index="05" 
-      kicker="The catalog"
-      title={<>Premium <span className="italic text-foreground/55">Programs.</span></>}
-      subtitle="Curated skill programs designed for modern creators, operators, and builders."
-    >
-      <MagicBento 
-        textAutoHide={true}
-        enableStars={true}
-        enableSpotlight={true}
-        enableBorderGlow={true}
-        enableTilt={false}
-        enableMagnetism={true}
-        clickEffect={true}
-        spotlightRadius={250}
-        particleCount={8}
-        glowColor="156, 224, 62"
-      >
-        {items.map((c, i) => (
-          <MagicBentoCard key={c.slug + i} index={i} {...c} />
-        ))}
-      </MagicBento>
-    </SectionShell>
-  );
-}
-
-function MagicBentoCard({
-  index,
-  title,
-  subtitle,
-  tag,
-  slug,
-}: {
-  index: number;
-  title: string;
-  subtitle: string;
-  tag: string;
-  slug: string;
-}) {
-  return (
-    <Link
-      to="/programs/$slug"
-      params={{ slug }}
-      className="magic-bento-card magic-bento-card--text-autohide magic-bento-card--border-glow group"
-    >
-      {/* Header with tag and index */}
-      <div className="magic-bento-card__header">
-        <span className="magic-bento-card__label">{tag}</span>
-        <span className="font-serif italic text-neon text-xs">0{index + 1}</span>
-      </div>
-
-      {/* Content */}
-      <div className="magic-bento-card__content flex-1">
-        <h3 className="magic-bento-card__title">{title}</h3>
-        <p className="magic-bento-card__description">{subtitle}</p>
-      </div>
-
-      {/* CTA */}
-      <a className="magic-bento-card__cta">
-        <span>Explore</span>
-        <ArrowUpRight className="size-3.5" />
-      </a>
-    </Link>
-  );
-}
-
-function BentoProgramCard({
-  index,
-  title,
-  subtitle,
-  tag,
-  slug,
-  span,
-}: {
-  index: number;
-  title: string;
-  subtitle: string;
-  tag: string;
-  slug: string;
-  span: string;
-}) {
-  return (
-    <ScrollReveal delay={index * 0.08}>
-      <Link
-        to="/programs/$slug"
-        params={{ slug }}
-        className={`group relative block h-full rounded-sm border border-foreground/10 bg-card overflow-hidden transition-all hover:border-foreground/30 ${span}`}
-      >
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-foreground/[0.04] via-transparent to-foreground/[0.08]" />
-        
-        {/* Animated accent glow */}
-        <motion.div
-          className="absolute -top-20 -right-20 size-64 rounded-full bg-neon/[0.08] blur-3xl"
-          animate={{ x: [0, 15, 0], y: [0, -8, 0] }}
-          transition={{ duration: 7 + index, repeat: Infinity, ease: "easeInOut" }}
-        />
-        
-        {/* Content */}
-        <div className="relative h-full p-6 md:p-8 flex flex-col justify-between">
-          {/* Header */}
-          <div className="flex items-start justify-between mb-4">
-            <span className="text-[9px] uppercase tracking-[0.25em] text-neon font-medium">
-              {tag}
-            </span>
-            <span className="font-serif italic text-neon text-sm">0{index + 1}</span>
-          </div>
-          
-          {/* Title & Description */}
-          <div className="flex-1 flex flex-col justify-between">
-            <div>
-              <h3 className="font-serif text-2xl md:text-3xl leading-[1.1] mb-3 text-foreground">
-                {title}
-              </h3>
-              <p className="text-sm text-foreground/60 leading-relaxed line-clamp-2 md:line-clamp-3">
-                {subtitle}
-              </p>
-            </div>
-            
-            {/* CTA Link */}
-            <div className="mt-6 inline-flex items-center gap-2 text-xs md:text-sm text-foreground/70 group-hover:text-neon transition-colors">
-              <span className="border-b border-foreground/40 group-hover:border-neon pb-0.5">
-                Explore
-              </span>
-              <ArrowUpRight className="size-3 md:size-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </div>
-          </div>
-        </div>
-      </Link>
-    </ScrollReveal>
-  );
-}
-
-function ProgramCard({
-  index,
-  title,
-  subtitle,
-  tag,
-  slug,
-}: {
-  index: number;
-  title: string;
-  subtitle: string;
-  tag: string;
-  slug: string;
-}) {
-  return (
-    <Link
-      to="/programs/$slug"
-      params={{ slug }}
-      className="group relative shrink-0 w-[78vw] sm:w-[480px] aspect-[3/4] rounded-sm border border-foreground/12 bg-card overflow-hidden glow-ring"
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-foreground/[0.04] via-transparent to-foreground/[0.08]" />
-      <motion.div
-        className="absolute -top-20 -right-20 size-72 rounded-full bg-foreground/[0.06] blur-3xl"
-        animate={{ x: [0, 20, 0], y: [0, -10, 0] }}
-        transition={{ duration: 8 + index, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <div className="relative h-full p-8 flex flex-col justify-between">
-        <div className="flex items-start justify-between">
-          <span className="text-[10px] uppercase tracking-[0.3em] text-neon font-medium">{tag}</span>
-          <span className="font-serif italic text-foreground/30 tabular-nums">0{index + 1}</span>
-        </div>
-        <div>
-          <h3 className="font-serif text-4xl md:text-5xl leading-[1.02] mb-4">{title}</h3>
-          <p className="text-foreground/65 leading-relaxed line-clamp-3">{subtitle}</p>
-          <div className="mt-8 inline-flex items-center gap-2 text-sm">
-            <span className="border-b border-foreground/40 group-hover:border-foreground pb-0.5">
-              View program
-            </span>
-            <ArrowUpRight className="size-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
 /* ─── CORPORATE OFFERING ────────────────────────── */
 function CorporateOffering() {
   const offerings = [
@@ -932,7 +606,7 @@ function CorporateOffering() {
 
   return (
     <SectionShell 
-      index="06" 
+      index="04" 
       kicker="For companies" 
       title={<>Build High-Performing <span className="italic text-foreground/55">Teams.</span></>}
       subtitle="Build, train, and manage your in-house marketing team so you stay in control while we ensure performance."
@@ -946,7 +620,7 @@ function CorporateOffering() {
                 <div className="absolute -top-10 -right-10 size-40 rounded-full bg-foreground/[0.03] blur-2xl group-hover:bg-foreground/[0.06] transition-colors" />
                 
                 <div className="flex items-start justify-between mb-6">
-                  <span className="font-serif text-4xl text-foreground/10 relative z-10">
+                  <span className="font-serif text-4xl text-neon relative z-10">
                     {item.number}
                   </span>
                   <div className="size-10 rounded-sm bg-neon-soft border border-neon/40 flex items-center justify-center">
@@ -994,7 +668,7 @@ function OutcomesOverPromises() {
     },
   ];
   return (
-    <SectionShell index="07" kicker="The contract" title={<>Outcomes <span className="italic text-foreground/55">Over Promises.</span></>}>
+    <SectionShell index="05" kicker="The contract" title={<>Outcomes <span className="italic text-foreground/55">Over Promises.</span></>}>
       <div className="grid md:grid-cols-3 gap-5">
         {cards.map((c, i) => (
           <ScrollReveal key={c.tag} delay={i * 0.1}>
@@ -1025,7 +699,7 @@ function StudentWork() {
   ];
   return (
     <SectionShell 
-      index="08" 
+      index="06" 
       kicker="Real work" 
       title={<>Proof Through <span className="italic text-foreground/55">Execution.</span></>}
       subtitle="Built through real projects, real work, and real growth."
@@ -1087,44 +761,12 @@ function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
   );
 }
 
-function NumbersStrip() {
-  const stats = [
-    { v: 1000, s: "+", label: "Students trained" },
-    { v: 300, s: "+", label: "Real briefs shipped" },
-    { v: 100, s: "+", label: "Hiring partners" },
-    { v: 85, s: "%", label: "Placement rate" },
-  ];
-  return (
-    <SectionShell
-      index="09"
-      kicker="The receipts"
-      title={<>The Numbers Behind <span className="italic text-foreground/55">Skillnex.</span></>}
-    >
-      <div className="grid grid-cols-2 md:grid-cols-4 border-t border-foreground/10">
-        {stats.map((s, i) => (
-          <ScrollReveal
-            key={s.label}
-            delay={i * 0.08}
-            className={`p-8 md:p-10 border-b border-foreground/10 ${
-              i !== stats.length - 1 ? "md:border-r border-foreground/10" : ""
-            }`}
-          >
-            <p className="font-serif text-6xl md:text-7xl leading-none">
-              <Counter to={s.v} suffix={s.s} />
-            </p>
-            <p className="mt-4 text-foreground/60 text-sm uppercase tracking-[0.2em]">{s.label}</p>
-          </ScrollReveal>
-        ))}
-      </div>
-    </SectionShell>
-  );
-}
 
 /* ─── MEET THE FOUNDER ──────────────────────────────── */
 function Advisors() {
   return (
     <SectionShell 
-      index="10" 
+      index="07" 
       kicker="The founder" 
       title={<>Meet the <span className="italic text-foreground/55">Founder.</span></>}
     >
@@ -1170,7 +812,7 @@ function CareerAssessment() {
 
   return (
     <SectionShell 
-      index="11" 
+      index="08" 
       kicker="Get guidance" 
       title={<>Talk to a Skill <span className="italic text-foreground/55">Counsellor.</span></>}
       subtitle="Free skill counselling to find your niche and next steps."
@@ -1218,38 +860,6 @@ function CareerAssessment() {
   );
 }
 
-/* ─── ROADMAP ───────────────────────────────────── */
-function RoadmapToHire() {
-  const steps = [
-    { icon: Sparkles, t: "Assess", d: "AI maps your strengths" },
-    { icon: GraduationCap, t: "Train", d: "Tightly produced lessons" },
-    { icon: Megaphone, t: "Brief", d: "Real client briefs" },
-    { icon: Briefcase, t: "Ship", d: "Portfolio reviewed by pros" },
-    { icon: Trophy, t: "Match", d: "Routed to hiring partners" },
-    { icon: Rocket, t: "Hire", d: "Onboard your first role" },
-  ];
-  return (
-    <SectionShell index="11" kicker="The path" title={<>The Roadmap <span className="italic text-foreground/55">to Hire.</span></>}>
-      <div className="relative">
-        <div className="absolute left-0 right-0 top-7 h-px bg-foreground/10 hidden md:block" />
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-6 relative">
-          {steps.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <ScrollReveal key={s.t} delay={i * 0.06} className="text-center">
-                <div className="group mx-auto size-14 rounded-full bg-card border border-foreground/15 flex items-center justify-center mb-4 transition-all duration-300 hover:border-neon hover:shadow-[0_0_20px_rgba(156,224,62,0.4)]">
-                  <Icon className="size-5 group-hover:text-neon transition-colors" />
-                </div>
-                <p className="font-serif text-xl">{s.t}</p>
-                <p className="text-xs text-foreground/55 mt-1">{s.d}</p>
-              </ScrollReveal>
-            );
-          })}
-        </div>
-      </div>
-    </SectionShell>
-  );
-}
 
 /* ─── TESTIMONIALS ──────────────────────────────── */
 function AlumniGuild() {
@@ -1372,57 +982,241 @@ function AlumniGuild() {
   );
 }
 
-/* ─── DEVELOPER & DESIGN ASSETS ─────────────────── */
+/* ─── FAQ - QUESTIONS & ANSWERS ────────────────────────── */
 function DeveloperAssets() {
-  const items = [
+  const [openId, setOpenId] = useState<string | null>(null);
+
+  const faqs = [
     {
-      tag: "Templates",
-      t: "Brief deck templates",
-      d: "The same docs our advisors review against — Figma & Keynote.",
+      category: "Overview",
+      icon: Sparkles,
+      questions: [
+        {
+          id: "overview-1",
+          q: "What is Skillnex?",
+          a: "Skillnex is a skill-focused learning platform that combines career counselling, practical training, real-world project execution, and mentorship. We bridge the gap between learning and industry-ready execution, helping students build skills that move their careers forward.",
+        },
+        {
+          id: "overview-2",
+          q: "How is Skillnex different from traditional learning platforms?",
+          a: "Traditional platforms teach theory. Skillnex focuses on execution. We start with skill-focused counselling to help you find your niche, then move into real project work with industry mentors, and finally connect top performers to internships and jobs. Every step is practical, not hypothetical.",
+        },
+      ],
     },
     {
-      tag: "Stack",
-      t: "No-code starter kits",
-      d: "Automations, dashboards, and tracking blueprints to ship faster.",
+      category: "Skill Counselling",
+      icon: Brain,
+      questions: [
+        {
+          id: "counsel-1",
+          q: "How does skill-focused counselling work at Skillnex?",
+          a: "Our counsellors conduct 1-on-1 sessions to understand your strengths, interests, and career goals. They analyze market demand for different skills and recommend the right niche for you — so you start learning with clarity instead of confusion.",
+        },
+        {
+          id: "counsel-2",
+          q: "How do I choose the right niche or skill?",
+          a: "Our skill counsellors work with you to assess your aptitudes, interests, and market opportunities. Whether it's performance marketing, video production, UI/UX design, or engineering, we help you pick a path that aligns with both your strengths and market demand.",
+        },
+      ],
     },
     {
-      tag: "Library",
-      t: "Swipe & study files",
-      d: "Curated ads, films, identities — annotated by working operators.",
+      category: "Learning & Execution",
+      icon: Rocket,
+      questions: [
+        {
+          id: "learning-1",
+          q: "What kind of skills can I learn on Skillnex?",
+          a: "We offer programs in Performance Marketing, Video Production & Editing, Graphic Design & UI/UX, Social Media Management, Full Stack Development, and Soft Skills. Each program is designed to build practical, industry-demanded capabilities.",
+        },
+        {
+          id: "learning-2",
+          q: "Do I get real projects or just training?",
+          a: "You get both — and we prioritize real projects. You learn through hands-on work on live briefs from companies actively hiring. Every week brings a new project brief, giving you real experience and a portfolio built from actual work.",
+        },
+        {
+          id: "learning-3",
+          q: "How does Skillnex help in real-world execution?",
+          a: "We provide real client briefs, live feedback from working operators (not theorists), and mentorship from industry experts. You build actual deliverables, learn by shipping, and gain confidence through execution — not just coursework.",
+        },
+      ],
+    },
+    {
+      category: "Mentorship & Growth",
+      icon: GraduationCap,
+      questions: [
+        {
+          id: "mentor-1",
+          q: "Will I get mentorship from industry experts?",
+          a: "Yes. Every cohort is guided by working professionals who actively do the job today. They review your work, provide real-world feedback, and help you navigate challenges with practical solutions from their own experience.",
+        },
+        {
+          id: "mentor-2",
+          q: "How does Skillnex support my growth after learning?",
+          a: "After you complete your program, you join our alumni network with access to continued mentorship, advanced projects, and pathways to internships, freelance work, and full-time opportunities through our hiring partner network.",
+        },
+      ],
+    },
+    {
+      category: "Opportunities",
+      icon: Trophy,
+      questions: [
+        {
+          id: "opp-1",
+          q: "How does Skillnex help me get internships or jobs?",
+          a: "We match top performers into our hiring partner network with direct introductions — not job boards. Your portfolio of real projects speaks for itself, and we connect you to companies actively looking for your specific skills.",
+        },
+        {
+          id: "opp-2",
+          q: "Can I work on real client projects?",
+          a: "Yes. Real client projects are the core of our learning model. You don't work on hypothetical briefs — every project comes from companies with real needs, real constraints, and real budgets. This means your portfolio has actual client work.",
+        },
+      ],
+    },
+    {
+      category: "Colleges",
+      icon: Briefcase,
+      questions: [
+        {
+          id: "college-1",
+          q: "How can colleges partner with Skillnex?",
+          a: "Colleges can integrate our skill-focused counselling, programs, and execution framework into their curriculum. We help students become industry-ready while the college maintains academic structure. It's a partnership that transforms placement outcomes.",
+        },
+        {
+          id: "college-2",
+          q: "How does Skillnex help make students industry-ready?",
+          a: "We bring real industry needs into the classroom through project briefs, live feedback from working operators, and direct pathways to internships and jobs. Students graduate with practical skills, portfolio projects, and connections — not just degrees.",
+        },
+      ],
+    },
+    {
+      category: "Corporates",
+      icon: LineChart,
+      questions: [
+        {
+          id: "corp-1",
+          q: "How does Skillnex help companies build in-house teams?",
+          a: "We conduct skill gap assessments, design customized training programs, and deliver hands-on execution coaching. Your team learns by solving real business challenges, not attending generic sessions. We focus on practical, high-impact skills that move your metrics.",
+        },
+        {
+          id: "corp-2",
+          q: "Do you provide corporate training and team management?",
+          a: "Yes. We design role-specific programs, deliver training, track performance metrics, and provide ongoing mentorship. We work with your business goals and measure success through actual outcomes — productivity, campaign performance, or project delivery.",
+        },
+      ],
+    },
+    {
+      category: "General",
+      icon: Star,
+      questions: [
+        {
+          id: "general-1",
+          q: "Is Skillnex suitable for beginners?",
+          a: "Absolutely. We have programs for complete beginners through advanced learners. Our skill counselling helps you start at the right level, and our learning model is designed to take you from zero to portfolio-ready in your chosen skill.",
+        },
+        {
+          id: "general-2",
+          q: "How do I get started with Skillnex?",
+          a: "Start with a free skill counselling session to understand your path. Then enroll in a program that matches your goals. A new cohort opens every season, so you can start when ready. Reserve your seat in 2 minutes through our website.",
+        },
+      ],
     },
   ];
+
   return (
-    <SectionShell index="12" kicker="The toolkit" title={<>Developer & <span className="italic text-foreground/55">Design Assets.</span></>}>
-      <div className="grid md:grid-cols-3 gap-5">
-        {items.map((it, i) => (
-          <ScrollReveal key={it.t} delay={i * 0.08}>
-            <div className="group rounded-sm border border-foreground/10 bg-card p-8 h-full hover:border-foreground/30 transition-colors">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-foreground/40 mb-6">
-                {it.tag}
-              </p>
-              <h3 className="font-serif text-2xl md:text-3xl leading-snug mb-4">{it.t}</h3>
-              <p className="text-foreground/65 leading-relaxed">{it.d}</p>
-              <div className="mt-8 inline-flex items-center gap-2 text-sm text-foreground/70 group-hover:text-foreground">
-                <span className="border-b border-foreground/30 pb-0.5">Explore</span>
-                <ArrowUpRight className="size-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+    <section className="px-6 py-4 border-t border-foreground/10">
+      <div className="max-w-[1400px] mx-auto">
+        <ScrollReveal className="mb-16 text-center">
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <span className="w-12 h-px bg-neon" />
+            <span className="text-[10px] uppercase tracking-[0.35em] text-neon font-medium">
+              Chapter 09 · Questions answered
+            </span>
+            <span className="w-12 h-px bg-neon" />
+          </div>
+          <h2 className="font-serif text-4xl md:text-6xl leading-[0.98] mb-4">
+            Questions & <span className="italic text-foreground/55">Answers.</span>
+          </h2>
+          <p className="text-lg text-foreground/65 max-w-[60ch] mx-auto">
+            Everything you need to know about Skillnex — from learning and mentorship to partnerships and growth.
+          </p>
+        </ScrollReveal>
+
+        {/* FAQ Categories */}
+        <div className="space-y-12">
+          {faqs.map((section, sectionIdx) => {
+            const Icon = section.icon;
+            return (
+              <div key={section.category}>
+                <ScrollReveal delay={sectionIdx * 0.05}>
+                  <div className="flex items-center gap-3 mb-6 pb-4 border-b border-foreground/10">
+                    <h3 className="font-serif text-xl md:text-2xl">
+                      {section.category}
+                    </h3>
+                  </div>
+                </ScrollReveal>
+
+                <div className="space-y-3">
+                  {section.questions.map((qa, qaIdx) => (
+                    <ScrollReveal key={qa.id} delay={sectionIdx * 0.05 + qaIdx * 0.03}>
+                      <div
+                        className="rounded-sm border border-foreground/10 bg-card overflow-hidden hover:border-foreground/20 transition-colors cursor-pointer group"
+                        onClick={() => setOpenId(openId === qa.id ? null : qa.id)}
+                      >
+                        {/* Question Header */}
+                        <div className="p-6 md:p-7 flex items-center justify-between gap-4">
+                          <h4 className="font-medium text-foreground/90 group-hover:text-foreground transition-colors flex-1">
+                            ● {qa.q}
+                          </h4>
+                          <motion.div
+                            animate={{ rotate: openId === qa.id ? 180 : 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="shrink-0"
+                          >
+                            <ArrowRight className="size-5 text-neon transition-colors" />
+                          </motion.div>
+                        </div>
+
+                        {/* Answer */}
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={
+                            openId === qa.id
+                              ? { height: "auto", opacity: 1 }
+                              : { height: 0, opacity: 0 }
+                          }
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                          className="overflow-hidden border-t border-foreground/10"
+                        >
+                          <p className="p-6 md:p-7 text-foreground/65 leading-relaxed">
+                            {qa.a}
+                          </p>
+                        </motion.div>
+                      </div>
+                    </ScrollReveal>
+                  ))}
+                </div>
               </div>
-            </div>
-          </ScrollReveal>
-        ))}
+            );
+          })}
+        </div>
       </div>
-    </SectionShell>
+    </section>
   );
 }
 
 /* ─── FINAL CTA ─────────────────────────────────── */
 function FinalCTA() {
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <section className="relative px-6 py-12 md:py-16 overflow-hidden bg-background">
+    <section className="relative px-6 py-12 md:py-16 overflow-hidden" style={{ backgroundColor: '#010100' }}>
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full bg-foreground/[0.06] blur-[120px]" />
       </div>
       <ScrollReveal className="relative max-w-[1100px] mx-auto text-center">
-        <p className="text-[10px] uppercase tracking-[0.35em] text-foreground/50 mb-8">
+        <p className="text-[10px] uppercase tracking-[0.35em] text-neon mb-8 font-medium">
           Begin chapter one
         </p>
         <h2 className="font-serif text-6xl md:text-[10vw] lg:text-[8vw] leading-[0.95]">
@@ -1430,10 +1224,10 @@ function FinalCTA() {
           <br />
           <span className="italic text-foreground/65">Irreplaceable?</span>
         </h2>
-        <p className="mt-10 text-foreground/65 max-w-xl mx-auto leading-relaxed">
+        <p className="mt-10 text-neon max-w-xl mx-auto leading-relaxed font-medium">
           A new cohort opens every season. Reserve your seat in 2 minutes.
         </p>
-        <div className="mt-12 flex flex-wrap gap-3 justify-center">
+        <div className="mt-12 flex flex-wrap gap-3 justify-center items-center">
           <MagneticButton asChild>
             <Link
               to="/signup"
@@ -1452,6 +1246,15 @@ function FinalCTA() {
               <ArrowUpRight className="size-4" />
             </Link>
           </MagneticButton>
+          <motion.button
+            onClick={handleScrollToTop}
+            whileHover={{ y: -4 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="ml-auto md:ml-4 size-12 rounded-full border border-neon/40 bg-neon/10 hover:bg-neon/20 flex items-center justify-center transition-colors"
+            title="Scroll to top"
+          >
+            <ArrowRight className="size-5 text-neon rotate-[-90deg]" />
+          </motion.button>
         </div>
       </ScrollReveal>
     </section>
