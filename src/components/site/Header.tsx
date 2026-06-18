@@ -23,10 +23,11 @@ export function Header() {
   };
 
   const navLinks = [
-    { to: "/programs", label: "Programs" },
-    { to: "/about", label: "Studio" },
-    { to: "/pricing", label: "Pricing" },
-    { to: "/faq", label: "FAQ" },
+    { to: "/#programs", label: "Programs" },
+    { to: "/#about", label: "About" },
+    { to: "/#work", label: "Work" },
+    { to: "/#testimonials", label: "Testimonials" },
+    { to: "/#faq", label: "FAQ" },
   ] as const;
 
   return (
@@ -43,20 +44,19 @@ export function Header() {
         <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="group flex items-baseline gap-2">
             <span className="font-serif text-3xl tracking-tight text-foreground">Skillnex</span>
-            <span className="font-serif italic text-xs text-foreground/50 hidden sm:inline">— est. 2024</span>
+            <span className="font-serif italic text-xs hidden sm:inline neon-text">— est. 2024</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-1 text-sm">
             {navLinks.map((l) => (
-              <Link
+              <a
                 key={l.to}
-                to={l.to}
+                href={l.to}
                 className="relative px-3 py-2 text-foreground/70 hover:text-foreground transition-colors group"
-                activeProps={{ className: "text-foreground" }}
               >
                 <span>{l.label}</span>
                 <span className="absolute left-3 right-3 bottom-1 h-px bg-foreground origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-              </Link>
+              </a>
             ))}
           </div>
 
@@ -125,13 +125,13 @@ export function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 + i * 0.06 }}
                 >
-                  <Link
-                    to={l.to}
+                  <a
+                    href={l.to}
                     onClick={() => setOpen(false)}
                     className="block font-serif text-5xl py-2 hover:italic transition-all"
                   >
                     {l.label}
-                  </Link>
+                  </a>
                 </motion.div>
               ))}
             </nav>

@@ -63,8 +63,8 @@ export function Footer() {
         </div>
 
         <div className="border-t border-foreground/15 pt-8 flex flex-wrap justify-between gap-4 text-xs text-foreground/50">
-          <p>© 2026 Skillnex. All rights reserved.</p>
-          <p className="italic">Start with clarity, build with execution.</p>
+          <p className="neon-text">© 2026 Skillnex. All rights reserved.</p>
+          <p className="italic neon-text">Start with clarity, build with execution.</p>
         </div>
       </div>
     </footer>

@@ -291,6 +291,7 @@ function DegreesVsSkills() {
       index="01" 
       kicker="Learn by doing" 
       title={<>Build Skills Through <span className="italic text-foreground/55">Execution.</span></>}
+      sectionId="programs"
     >
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {courses.map((course, i) => (
@@ -703,6 +704,7 @@ function StudentWork() {
       kicker="Real work" 
       title={<>Proof Through <span className="italic text-foreground/55">Execution.</span></>}
       subtitle="Built through real projects, real work, and real growth."
+      sectionId="work"
     >
       <div className="grid md:grid-cols-3 gap-5">
         {tiles.map((t, i) => {
@@ -769,6 +771,7 @@ function Advisors() {
       index="07" 
       kicker="The founder" 
       title={<>Meet the <span className="italic text-foreground/55">Founder.</span></>}
+      sectionId="about"
     >
       <div className="max-w-4xl mx-auto">
         <ScrollReveal>
@@ -880,7 +883,7 @@ function AlumniGuild() {
   ];
 
   return (
-    <section className="px-6 py-24">
+    <section className="px-6 py-24" id="testimonials">
       <div className="max-w-[1400px] mx-auto grid lg:grid-cols-[1fr_1.5fr] gap-12">
         {/* Left: Static heading */}
         <ScrollReveal>
@@ -1123,20 +1126,19 @@ function DeveloperAssets() {
   ];
 
   return (
-    <section className="px-6 py-4 border-t border-foreground/10">
+    <section id="faq" className="px-6 py-4 border-t border-foreground/10">
       <div className="max-w-[1400px] mx-auto">
-        <ScrollReveal className="mb-16 text-center">
-          <div className="flex items-center justify-center gap-3 mb-5">
+        <ScrollReveal className="mb-16">
+          <div className="flex items-center gap-3 mb-5">
             <span className="w-12 h-px bg-neon" />
             <span className="text-[10px] uppercase tracking-[0.35em] text-neon font-medium">
               Chapter 09 · Questions answered
             </span>
-            <span className="w-12 h-px bg-neon" />
           </div>
-          <h2 className="font-serif text-4xl md:text-6xl leading-[0.98] mb-4">
+          <h2 className="font-serif text-4xl md:text-6xl leading-[0.98] mb-4 max-w-[20ch]">
             Questions & <span className="italic text-foreground/55">Answers.</span>
           </h2>
-          <p className="text-lg text-foreground/65 max-w-[60ch] mx-auto">
+          <p className="text-lg text-foreground/65 max-w-[60ch]">
             Everything you need to know about Skillnex — from learning and mentorship to partnerships and growth.
           </p>
         </ScrollReveal>
@@ -1267,16 +1269,18 @@ function SectionShell({
   kicker,
   title,
   subtitle,
+  sectionId,
   children,
 }: {
   index: string;
   kicker: string;
   title: React.ReactNode;
   subtitle?: string;
+  sectionId?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="px-6 py-12 md:py-16">
+    <section id={sectionId} className="px-6 py-12 md:py-16">
       <div className="max-w-[1400px] mx-auto">
         <ScrollReveal className="mb-14">
           <div className="flex items-center gap-3 mb-5">

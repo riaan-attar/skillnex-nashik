@@ -219,6 +219,10 @@
   .bg-neon-soft { background-color: var(--neon-soft); }
   .shadow-neon { box-shadow: 0 0 24px -4px oklch(0.92 0.22 125 / 0.45), 0 0 0 1px oklch(0.92 0.22 125 / 0.35); }
 
+  .neon-text {
+    color: var(--neon);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }
     * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
