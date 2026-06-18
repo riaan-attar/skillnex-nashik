@@ -34,6 +34,8 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
+import { BentoTile } from "@/components/site/BentoTile";
+import { MagicBento } from "@/components/site/MagicBento";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { KineticHeadline } from "@/components/motion/KineticHeadline";
 import { Marquee } from "@/components/motion/Marquee";
@@ -129,8 +131,8 @@ function Hero() {
       <motion.div style={{ y, opacity }} className="relative w-full max-w-[1400px] mx-auto px-6">
         <ScrollReveal>
           <div className="flex items-center gap-3 mb-10">
-            <span className="w-12 h-px bg-foreground/40" />
-            <span className="text-[10px] uppercase tracking-[0.35em] text-foreground/50">
+            <span className="w-12 h-px bg-neon" />
+            <span className="text-[10px] uppercase tracking-[0.35em] text-neon">
               Skillnex · The skills institute
             </span>
           </div>
@@ -186,7 +188,7 @@ function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.6, duration: 1 }}
-          className="mt-20 flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-foreground/40"
+          className="mt-20 flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-neon"
         >
           <span>Scroll · the chapter begins</span>
           <motion.span
@@ -195,7 +197,7 @@ function Hero() {
           >
             ↓
           </motion.span>
-          <span className="hidden sm:inline">v. 2026 — Nashik, IN</span>
+          <span className="hidden sm:inline text-neon">v. 2026 — Nashik, IN</span>
         </motion.div>
       </motion.div>
     </section>
@@ -287,7 +289,7 @@ function DegreesVsSkills() {
                 to="/programs"
                 className="inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-foreground group/link relative z-10"
               >
-                <span className="border-b border-foreground/40 group-hover/link:border-foreground pb-0.5">
+                <span className="border-b border-foreground/40 group-hover/link:border-neon group-hover/link:text-neon pb-0.5 transition-colors">
                   Explore
                 </span>
                 <ArrowRight className="size-4 group-hover/link:translate-x-1 transition-transform" />
@@ -670,7 +672,7 @@ function WorkshopAddOn() {
   );
 }
 
-/* ─── PREMIUM PROGRAMS — horizontal scroll ──────── */
+/* ─── PREMIUM PROGRAMS — magic bento grid ──────── */
 function PremiumPrograms(_props: {
   courses: Array<{
     id: string;
@@ -697,16 +699,16 @@ function PremiumPrograms(_props: {
       slug: "graphic-designing",
     },
     {
-      title: "Social Media Management",
-      subtitle: "Strategy, calendars, content and community — run brand pages that actually grow.",
-      tag: "Operator · 8 weeks",
-      slug: "social-media-management",
-    },
-    {
       title: "Performance Marketing",
       subtitle: "Meta, Google, creative testing and attribution — paid acquisition end-to-end.",
       tag: "Flagship · 12 weeks",
       slug: "performance-marketing",
+    },
+    {
+      title: "Social Media Management",
+      subtitle: "Strategy, calendars, content and community — run brand pages that actually grow.",
+      tag: "Operator · 8 weeks",
+      slug: "social-media-management",
     },
     {
       title: "AI In Digital Marketing",
@@ -716,63 +718,137 @@ function PremiumPrograms(_props: {
     },
   ];
 
-  const ref = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [distance, setDistance] = useState(0);
-  const reduced = useReducedMotion();
-
-  useEffect(() => {
-    const measure = () => {
-      if (!trackRef.current) return;
-      const trackW = trackRef.current.scrollWidth;
-      const viewW = window.innerWidth;
-      setDistance(Math.max(0, trackW - viewW));
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
-
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const x = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -distance]);
-
-  // dynamic section height — enough vertical scroll to pan the full track
-  const sectionHeight = `calc(100vh + ${distance}px)`;
-
   return (
-    <section ref={ref} className="relative overflow-hidden" style={{ height: sectionHeight }}>
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
-        <div className="px-6 pt-24 pb-10">
-          <div className="max-w-[1400px] mx-auto flex items-end justify-between flex-wrap gap-6">
+    <SectionShell 
+      index="05" 
+      kicker="The catalog"
+      title={<>Premium <span className="italic text-foreground/55">Programs.</span></>}
+      subtitle="Curated skill programs designed for modern creators, operators, and builders."
+    >
+      <MagicBento 
+        textAutoHide={true}
+        enableStars={true}
+        enableSpotlight={true}
+        enableBorderGlow={true}
+        enableTilt={false}
+        enableMagnetism={true}
+        clickEffect={true}
+        spotlightRadius={250}
+        particleCount={8}
+        glowColor="156, 224, 62"
+      >
+        {items.map((c, i) => (
+          <MagicBentoCard key={c.slug + i} index={i} {...c} />
+        ))}
+      </MagicBento>
+    </SectionShell>
+  );
+}
+
+function MagicBentoCard({
+  index,
+  title,
+  subtitle,
+  tag,
+  slug,
+}: {
+  index: number;
+  title: string;
+  subtitle: string;
+  tag: string;
+  slug: string;
+}) {
+  return (
+    <Link
+      to="/programs/$slug"
+      params={{ slug }}
+      className="magic-bento-card magic-bento-card--text-autohide magic-bento-card--border-glow group"
+    >
+      {/* Header with tag and index */}
+      <div className="magic-bento-card__header">
+        <span className="magic-bento-card__label">{tag}</span>
+        <span className="font-serif italic text-neon text-xs">0{index + 1}</span>
+      </div>
+
+      {/* Content */}
+      <div className="magic-bento-card__content flex-1">
+        <h3 className="magic-bento-card__title">{title}</h3>
+        <p className="magic-bento-card__description">{subtitle}</p>
+      </div>
+
+      {/* CTA */}
+      <a className="magic-bento-card__cta">
+        <span>Explore</span>
+        <ArrowUpRight className="size-3.5" />
+      </a>
+    </Link>
+  );
+}
+
+function BentoProgramCard({
+  index,
+  title,
+  subtitle,
+  tag,
+  slug,
+  span,
+}: {
+  index: number;
+  title: string;
+  subtitle: string;
+  tag: string;
+  slug: string;
+  span: string;
+}) {
+  return (
+    <ScrollReveal delay={index * 0.08}>
+      <Link
+        to="/programs/$slug"
+        params={{ slug }}
+        className={`group relative block h-full rounded-sm border border-foreground/10 bg-card overflow-hidden transition-all hover:border-foreground/30 ${span}`}
+      >
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-foreground/[0.04] via-transparent to-foreground/[0.08]" />
+        
+        {/* Animated accent glow */}
+        <motion.div
+          className="absolute -top-20 -right-20 size-64 rounded-full bg-neon/[0.08] blur-3xl"
+          animate={{ x: [0, 15, 0], y: [0, -8, 0] }}
+          transition={{ duration: 7 + index, repeat: Infinity, ease: "easeInOut" }}
+        />
+        
+        {/* Content */}
+        <div className="relative h-full p-6 md:p-8 flex flex-col justify-between">
+          {/* Header */}
+          <div className="flex items-start justify-between mb-4">
+            <span className="text-[9px] uppercase tracking-[0.25em] text-neon font-medium">
+              {tag}
+            </span>
+            <span className="font-serif italic text-neon text-sm">0{index + 1}</span>
+          </div>
+          
+          {/* Title & Description */}
+          <div className="flex-1 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-3 mb-5">
-                <span className="w-12 h-px bg-neon" />
-                <span className="text-[10px] uppercase tracking-[0.35em] text-neon font-medium">
-                  Chapter 05 · The catalog
-                </span>
-              </div>
-              <h2 className="font-serif text-5xl md:text-6xl leading-[0.95]">
-                Premium <span className="italic text-foreground/60">Programs.</span>
-              </h2>
+              <h3 className="font-serif text-2xl md:text-3xl leading-[1.1] mb-3 text-foreground">
+                {title}
+              </h3>
+              <p className="text-sm text-foreground/60 leading-relaxed line-clamp-2 md:line-clamp-3">
+                {subtitle}
+              </p>
             </div>
-            <p className="text-sm text-foreground/50 italic">scroll →</p>
+            
+            {/* CTA Link */}
+            <div className="mt-6 inline-flex items-center gap-2 text-xs md:text-sm text-foreground/70 group-hover:text-neon transition-colors">
+              <span className="border-b border-foreground/40 group-hover:border-neon pb-0.5">
+                Explore
+              </span>
+              <ArrowUpRight className="size-3 md:size-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </div>
           </div>
         </div>
-
-        <div className="flex-1 flex items-center overflow-hidden">
-          <motion.div
-            ref={trackRef}
-            style={{ x }}
-            className="flex gap-6 px-6 will-change-transform"
-          >
-            {items.map((c, i) => (
-              <ProgramCard key={c.slug + i} index={i} {...c} />
-            ))}
-            <div className="w-[6vw] shrink-0" />
-          </motion.div>
-        </div>
-      </div>
-    </section>
+      </Link>
+    </ScrollReveal>
   );
 }
 
@@ -1161,8 +1237,8 @@ function RoadmapToHire() {
             const Icon = s.icon;
             return (
               <ScrollReveal key={s.t} delay={i * 0.06} className="text-center">
-                <div className="mx-auto size-14 rounded-full bg-card border border-foreground/15 flex items-center justify-center mb-4">
-                  <Icon className="size-5" />
+                <div className="group mx-auto size-14 rounded-full bg-card border border-foreground/15 flex items-center justify-center mb-4 transition-all duration-300 hover:border-neon hover:shadow-[0_0_20px_rgba(156,224,62,0.4)]">
+                  <Icon className="size-5 group-hover:text-neon transition-colors" />
                 </div>
                 <p className="font-serif text-xl">{s.t}</p>
                 <p className="text-xs text-foreground/55 mt-1">{s.d}</p>
@@ -1230,7 +1306,7 @@ function AlumniGuild() {
                       </div>
                       <div>
                         <p className="font-medium text-sm">{review.name}</p>
-                        <p className="text-xs text-foreground/60">{review.role}</p>
+                        <p className="text-xs text-neon">{review.role}</p>
                       </div>
                     </div>
                   </div>
@@ -1256,7 +1332,7 @@ function AlumniGuild() {
                       </div>
                       <div>
                         <p className="font-medium text-sm">{review.name}</p>
-                        <p className="text-xs text-foreground/60">{review.role}</p>
+                        <p className="text-xs text-neon">{review.role}</p>
                       </div>
                     </div>
                   </div>
@@ -1282,7 +1358,7 @@ function AlumniGuild() {
                       </div>
                       <div>
                         <p className="font-medium text-sm">{review.name}</p>
-                        <p className="text-xs text-foreground/60">{review.role}</p>
+                        <p className="text-xs text-neon">{review.role}</p>
                       </div>
                     </div>
                   </div>
@@ -1341,7 +1417,7 @@ function DeveloperAssets() {
 /* ─── FINAL CTA ─────────────────────────────────── */
 function FinalCTA() {
   return (
-    <section className="relative px-6 py-32 md:py-44 overflow-hidden">
+    <section className="relative px-6 py-12 md:py-16 overflow-hidden bg-background">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full bg-foreground/[0.06] blur-[120px]" />
       </div>
@@ -1397,7 +1473,7 @@ function SectionShell({
   children: React.ReactNode;
 }) {
   return (
-    <section className="px-6 py-24 md:py-32">
+    <section className="px-6 py-12 md:py-16">
       <div className="max-w-[1400px] mx-auto">
         <ScrollReveal className="mb-14">
           <div className="flex items-center gap-3 mb-5">
